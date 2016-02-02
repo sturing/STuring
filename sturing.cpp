@@ -1,71 +1,73 @@
 #include "sturing.h"
 
 STuring::STuring() {
-    TMLine = new QLineEdit();
-    TMRunBtn = new QPushButton("Запустить");
-    TMStop = new QPushButton("Остановить");
-    TMSrc = new QTextEdit();
-    info_lbl = new QLabel("");
+    tmLine = new QLineEdit();
+    tmRunBtn = new QPushButton("Пуск");
+    tmStopBtn = new QPushButton("Стоп");
+    tmSrc = new QTextEdit();
+    infoLbl = new QLabel("");
     speedSlider = new QSlider(Qt::Horizontal);
     speedLbl = new QLabel("Скорость: ");
 
-    up = new QHBoxLayout();
-    down = new QHBoxLayout();
-    main_layout = new QVBoxLayout();
-    up->setSpacing(3);
-    up->addWidget(TMLine);
-    up->addWidget(TMRunBtn);
-    up->addWidget(TMStop);
-    down->addWidget(info_lbl);
-    down->addWidget(speedLbl, 0, Qt::AlignRight);
-    down->addWidget(speedSlider);
+    upLayout = new QHBoxLayout();
+    mainLayout = new QVBoxLayout();
+
+    downLayout = new QHBoxLayout();
+    upLayout->setSpacing(3);
+    upLayout->addWidget(tmLine);
+    upLayout->addWidget(tmRunBtn);
+    upLayout->addWidget(tmStopBtn);
+
+    downLayout->addWidget(infoLbl);
+    downLayout->addWidget(speedLbl, 0, Qt::AlignRight);
+    downLayout->addWidget(speedSlider);
+
     speedSlider->setValue(50);
     speedSlider->setMaximumWidth(250);
     speedSlider->setMinimumWidth(60);
 
-    fontline.setPointSize(14);
-    fontline.setFamily("Monospace");
-    fontsrc.setFamily("Monospace");
-    fontline.setStyleHint(QFont::TypeWriter);
-    fontsrc.setStyleHint(QFont::TypeWriter);
-    fontsrc.setPointSize(12);
-    fontlbl.setFamily("Monospace");
-    fontlbl.setStyleHint(QFont::TypeWriter);
-    fontlbl.setPointSize(12);
-    TMLine->setFont(fontline);
-    TMSrc->setFont(fontsrc);
-    info_lbl->setFont(fontlbl);
+    fontLine.setPointSize(14);
+    fontLine.setFamily("Monospace");
+    fontSrc.setFamily("Monospace");
+    fontLine.setStyleHint(QFont::TypeWriter);
+    fontSrc.setStyleHint(QFont::TypeWriter);
+    fontSrc.setPointSize(12);
+    fontLbl.setFamily("Monospace");
+    fontLbl.setStyleHint(QFont::TypeWriter);
+    fontLbl.setPointSize(12);
+    tmLine->setFont(fontLine);
+    tmSrc->setFont(fontSrc);
+    infoLbl->setFont(fontLbl);
 
-    main_layout = new QVBoxLayout();
-    main_layout->setSpacing(3);
-    main_layout->setMargin(3);
-    main_layout->addLayout(up);
-    main_layout->addWidget(TMSrc);
-    main_layout->addLayout(down);
+    mainLayout = new QVBoxLayout();
+    mainLayout->setSpacing(3);
+    mainLayout->setMargin(3);
+    mainLayout->addLayout(upLayout);
+    mainLayout->addWidget(tmSrc);
+    mainLayout->addLayout(downLayout);
 
-    down->setMargin(3);
-    down->setSpacing(5);
-    //speed = 50;
+    downLayout->setMargin(3);
+    downLayout->setSpacing(5);
     changeSpeed();
-    speedLbl->setFont(fontlbl);
+    speedLbl->setFont(fontLbl);
 
-    TMStop->setEnabled(false);
+    tmStopBtn->setEnabled(false);
     setSrcSize();
 
-    QIcon window_icon;
-    window_icon.addFile(":/ico");
+    QIcon windowIcon;
+    windowIcon.addFile(":/ico");
 
-    mainwindow.setLayout(main_layout);
-    mainwindow.setWindowTitle("STuring - v2.3");
-    mainwindow.setWindowIcon(window_icon);
+    mainWindow.setLayout(mainLayout);
+    mainWindow.setWindowTitle("STuring - v2.3.1");
+    mainWindow.setWindowIcon(windowIcon);
 
 
-    mainwindow.show();
+    mainWindow.show();
 
-    QObject::connect(this->TMRunBtn, SIGNAL(clicked()), this, SLOT(run()));
-    QObject::connect(this->TMStop, SIGNAL(clicked()), this, SLOT(stopButtonEnabled()));
-    QObject::connect(this->TMSrc, SIGNAL(textChanged()), this, SLOT(setSrcSize()));
-    QObject::connect(this->TMSrc, SIGNAL(textChanged()), this, SLOT(clearFontSrc()));
+    QObject::connect(this->tmRunBtn, SIGNAL(clicked()), this, SLOT(run()));
+    QObject::connect(this->tmStopBtn, SIGNAL(clicked()), this, SLOT(stopButtonEnabled()));
+    QObject::connect(this->tmSrc, SIGNAL(textChanged()), this, SLOT(setSrcSize()));
+    QObject::connect(this->tmSrc, SIGNAL(textChanged()), this, SLOT(clearFontSrc()));
     QObject::connect(this->speedSlider, SIGNAL(valueChanged(int)), this, SLOT(changeSpeed()));
 }
 
@@ -75,59 +77,59 @@ void STuring::changeSpeed() {
 }
 
 void STuring::run() {
-    TMStop->setEnabled(true);
-    TMRunBtn->setEnabled(false);
+    tmStopBtn->setEnabled(true);
+    tmRunBtn->setEnabled(false);
     isRunning = true;
     stopped = false;
-    stack_src.clear();
-    now_state = "00";
+    stackSrc.clear();
+    nowState = "00";
 
-    QString tmp1 = TMLine->text();
+    QString tmp1 = tmLine->text();
     line = tmp1.toStdString();
 
     pointer = line.size();
     line.push_back(' ');
 
-    QString tmp2 = TMSrc->toPlainText();
-    QStringList src_list = tmp2.split('\n');
+    QString tmp2 = tmSrc->toPlainText();
+    QStringList srcList = tmp2.split('\n');
 
-    for(int i = 0; i < src_list.size(); ++i) {
-        QString tmp3 = src_list.at(i);
+    for(int i = 0; i < srcList.size(); ++i) {
+        QString tmp3 = srcList.at(i);
         string cmd = tmp3.toStdString();
         cmd = uncomment(cmd);
         if(cmd.size() > 0) {
-            stack_src.push_back(cmd);
+            stackSrc.push_back(cmd);
         }
     }
 
-    errors_test();
+    errorsTest();
 
     if(!stopped) {
         go();
-        print_result();
+        printResult();
         //qDebug() << "Success!" << endl;
     }
 
     isRunning = false;
-    TMStop->setEnabled(false);
-    TMRunBtn->setEnabled(true);
+    tmStopBtn->setEnabled(false);
+    tmRunBtn->setEnabled(true);
 
 }
 
 void STuring::clearFontSrc() {
-    TMSrc->font().cleanup();
-    TMSrc->setFont(fontsrc);
+    tmSrc->font().cleanup();
+    tmSrc->setFont(fontSrc);
 }
 
-bool STuring::errors_test() {
+void STuring::errorsTest() {
     int s = 0;
-    for(int i = 0; i < stack_src.size(); ++i) {
-        string state = get_state(stack_src[i]);
-        string read_letter = get_read_letter(stack_src[i]);
-        string write_letter = get_write_letter(stack_src[i]);
-        string next_state = get_next_state(stack_src[i]);
+    for(int i = 0; i < stackSrc.size(); ++i) {
+        string state = getState(stackSrc[i]);
+        string readLetter = getReadLetter(stackSrc[i]);
+        string writeLetter = getWriteLetter(stackSrc[i]);
+        string nextState = getNextState(stackSrc[i]);
 
-        if(state.size() == 0 || read_letter.size() == 0 || read_letter.size() > 1 || write_letter.size() == 0 || write_letter.size() > 1 || next_state.size() == 0) {
+        if(state.size() == 0 || readLetter.size() == 0 || readLetter.size() > 1 || writeLetter.size() == 0 || writeLetter.size() > 1 || nextState.size() == 0) {
             Error::error(i);
             stopped = true;
             ++s;
@@ -138,32 +140,32 @@ bool STuring::errors_test() {
 void STuring::stopButtonEnabled() {
     isRunning = false;
 
-    TMStop->setEnabled(false);
-    TMRunBtn->setEnabled(true);
+    tmStopBtn->setEnabled(false);
+    tmRunBtn->setEnabled(true);
 }
 
 void STuring::go() {
-    TMLine->setReadOnly(true);
-    TMRunBtn->setDisabled(true);
-    for(int i = 0; i < stack_src.size() && !stopped && isRunning; ++i) {
-        if(test_of_execute(stack_src[i])) {
+    tmLine->setReadOnly(true);
+    tmRunBtn->setDisabled(true);
+    for(int i = 0; i < stackSrc.size() && !stopped && isRunning; ++i) {
+        if(testOfExecute(stackSrc[i])) {
             time.start();
             for(;time.elapsed() < speed;) {
                 qApp->processEvents();
             }
-            TMLine->setText(QString::fromStdString(line));
-            execute_command(stack_src[i]);
-            TMLine->setSelection(pointer, 1);
+            tmLine->setText(QString::fromStdString(line));
+            executeCommand(stackSrc[i]);
+            tmLine->setSelection(pointer, 1);
             i = -1;
         }
-        if(i == stack_src.size() - 1) {
-            Error::undefined_transition(now_state, line[pointer]);
+        if(i == stackSrc.size() - 1) {
+            //Error::undefinedTransition(nowState, line[pointer]);
             i = -1;
             stopped = true;
         }
     }
-    TMLine->setReadOnly(false);
-    TMRunBtn->setDisabled(false);
+    tmLine->setReadOnly(false);
+    tmRunBtn->setDisabled(false);
 }
 
 string STuring::get(string& cmd, int k) {
@@ -182,25 +184,25 @@ string STuring::get(string& cmd, int k) {
 void STuring::setSrcSize() {
     QString str = "Символы: ";
 
-    int num_chars = TMSrc->document()->characterCount() - 1;
-    QString num_chars_s = QString::number(num_chars);
+    int numChars = tmSrc->document()->characterCount() - 1;
+    QString numCharsS = QString::number(numChars);
 
-    str += num_chars_s;
+    str += numCharsS;
     str += "; Строки: ";
 
-    int num_strings = TMSrc->document()->lineCount();
-    QString num_strings_s = QString::number(num_strings);
+    int numStrings = tmSrc->document()->lineCount();
+    QString numStringsS = QString::number(numStrings);
 
-    str += num_strings_s;
+    str += numStringsS;
     str += ".";
 
-    info_lbl->setText(str);
+    infoLbl->setText(str);
 }
 
-string STuring::get_state(string& cmd) {return get(cmd, 0);}
-string STuring::get_read_letter(string& cmd) {return get(cmd, 1);}
-string STuring::get_write_letter(string& cmd) {return get(cmd, 2);}
-string STuring::get_next_state(string& cmd) {return get(cmd, 3);}
+string STuring::getState(string& cmd) {return get(cmd, 0);}
+string STuring::getReadLetter(string& cmd) {return get(cmd, 1);}
+string STuring::getWriteLetter(string& cmd) {return get(cmd, 2);}
+string STuring::getNextState(string& cmd) {return get(cmd, 3);}
 
 string STuring::uncomment(string& str) {
     string tmp;
@@ -220,53 +222,54 @@ string STuring::uncomment(string& str) {
     }
 }
 
-bool STuring::validation_command_test(string& cmd) {
+bool STuring::validationCommandTest(/*string& cmd*/) {
     return true;
 }
 
-bool STuring::test_of_execute(string& cmd) {
-    string state = get_state(cmd);
-    string read_letter = get_read_letter(cmd);
+bool STuring::testOfExecute(string& cmd) {
+    string state = getState(cmd);
+    string readLetter = getReadLetter(cmd);
 
-    return state == now_state && read_letter[0] == line[pointer];
+    return state == nowState && readLetter[0] == line[pointer];
 }
 
-void STuring::execute_command(string& cmd) {
-    string write_letter = get_write_letter(cmd);
-    string next_state = get_next_state(cmd);
+void STuring::executeCommand(string& cmd) {
+    string writeLetter = getWriteLetter(cmd);
+    string nextState = getNextState(cmd);
 
-    if(write_letter == ">") {move_right();}
-    else if(write_letter == "<") {move_left();}
-    else if(write_letter == "#") {stopped = true;}
-    else {change_letter(write_letter[0]);}
+    if(writeLetter == ">") {moveRight();}
+    else if(writeLetter == "<") {moveLeft();}
+    else if(writeLetter == "#") {stopped = true;}
+    else {changeLetter(writeLetter[0]);}
 
-    now_state = next_state;
+    nowState = nextState;
 
     QString tmp = QString::fromStdString(line);
     //qDebug() << QString::fromStdString(line);
-    TMLine->clear();
-    TMLine->insert(tmp);
+    tmLine->clear();
+    tmLine->insert(tmp);
 
 }
 
-void STuring::change_letter(char let) {
+void STuring::changeLetter(char let) {
     line[pointer] = let;
 }
 
-void STuring::move_right() {
+void STuring::moveRight() {
     pointer++;
     if(pointer >= line.size()) {
+
         line.push_back(' ');
     }
 }
 
-void STuring::move_left() {
+void STuring::moveLeft() {
     if(pointer > 0) {
         pointer--;
     }
 }
 
-void STuring::print_result() {
+void STuring::printResult() {
     //qDebug() << QString::fromStdString(line) << endl;
 
     for(int i = 0; i < pointer; ++i) {

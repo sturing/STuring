@@ -15,57 +15,57 @@ public:
         //qDebug() << "Error in " << line + 1 << " line" << endl;
     }
 
-    static void undefined_transition(string st, char lt) {
+    //static void undefinedTransition(string st, char lt) {
         //qDebug() << "Error! Undefined transition from state " << "[" << QString::fromStdString(st) << "]" << " and the letter " << "[" << lt << "]" << endl;
-    }
+    //}
 };
 
 class STuring : public QObject
 {
     Q_OBJECT
 private:
-    QWidget mainwindow;
-    QLineEdit* TMLine;
-    QPushButton* TMRunBtn;
-    QPushButton* TMStop;
-    QTextEdit* TMSrc;
-    QHBoxLayout* up;
-    QVBoxLayout* main_layout;
+    QWidget mainWindow;
+    QLineEdit* tmLine;
+    QPushButton* tmRunBtn;
+    QPushButton* tmStopBtn;
+    QTextEdit* tmSrc;
+    QHBoxLayout* upLayout;
+    QVBoxLayout* mainLayout;
     QTime time;
-    QHBoxLayout* down;
-    QLabel* info_lbl;
+    QHBoxLayout* downLayout;
+    QLabel* infoLbl;
     QLabel* speedLbl;
-    QFont fontline, fontsrc, fontlbl;
+    QFont fontLine, fontSrc, fontLbl;
     QSlider* speedSlider;
 
     string s;
     int pointer;
     bool stopped;
-    string now_state, line;
-    vector<string>stack_src;
+    string nowState, line;
+    vector<string>stackSrc;
     bool isRunning;
     double speed;
 
     void go();
-    void execute_command(string& cmd);
-    void change_letter(char let);
-    void move_right();
-    void move_left();
+    void executeCommand(string& cmd);
+    void changeLetter(char let);
+    void moveRight();
+    void moveLeft();
     void stop();
 
-    string get_state(string& cmd);
-    string get_read_letter(string& cmd);
-    string get_write_letter(string& cmd);
-    string get_next_state(string& cmd);
+    string getState(string& cmd);
+    string getReadLetter(string& cmd);
+    string getWriteLetter(string& cmd);
+    string getNextState(string& cmd);
     string get(string& cmd, int k);
     string uncomment(string& str);
 
-    bool test_of_execute(string& cmd);
-    bool validation_command_test(string& cmd);
-    bool errors_test();
+    bool testOfExecute(string& cmd);
+    bool validationCommandTest(/*string& cmd*/);
+    void errorsTest();
 public:
     STuring();
-    void print_result();
+    void printResult();
 
 signals:
     void getData();
