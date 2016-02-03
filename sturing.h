@@ -1,50 +1,24 @@
 #ifndef STURING_H
 #define STURING_H
 
-#include <vector>
-#include <QDebug>
-#include <string>
-#include <QCoreApplication>
+#include <QObject>
 #include <QtWidgets>
 
+
 using namespace std;
-
-class Error {
-public:
-    static void error(int line) {
-        //qDebug() << "Error in " << line + 1 << " line" << endl;
-    }
-
-    //static void undefinedTransition(string st, char lt) {
-        //qDebug() << "Error! Undefined transition from state " << "[" << QString::fromStdString(st) << "]" << " and the letter " << "[" << lt << "]" << endl;
-    //}
-};
 
 class STuring : public QObject
 {
     Q_OBJECT
-private:
-    QWidget mainWindow;
-    QLineEdit* tmLine;
-    QPushButton* tmRunBtn;
-    QPushButton* tmStopBtn;
-    QTextEdit* tmSrc;
-    QHBoxLayout* upLayout;
-    QVBoxLayout* mainLayout;
-    QTime time;
-    QHBoxLayout* downLayout;
-    QLabel* infoLbl;
-    QLabel* speedLbl;
-    QFont fontLine, fontSrc, fontLbl;
-    QSlider* speedSlider;
 
-    string s;
+public: //(пришлось сделать public. Пишите, как сделать так, чтобы все работало с инкапсуляцией)
     int pointer;
     bool stopped;
     string nowState, line;
     vector<string>stackSrc;
     bool isRunning;
     double speed;
+    QTime time;
 
     void go();
     void executeCommand(string& cmd);
@@ -64,19 +38,17 @@ private:
     bool validationCommandTest(/*string& cmd*/);
     void errorsTest();
 public:
-    STuring();
-    void printResult();
+    explicit STuring(QObject *parent = 0);
 
 signals:
     void getData();
     void getSource();
+    void Runable(bool);
+    void updateLine(string);
+    void updatePointer(int);
 
 public slots:
-    void run();
-    void stopButtonEnabled();
-    void setSrcSize();
-    void clearFontSrc();
-    void changeSpeed();
+    void run(QString src_, string line_);
 };
 
 #endif // STURING_H

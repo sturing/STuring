@@ -1,12 +1,15 @@
 #include <QApplication>
-#include <QtWidgets>
-#include "sturing.h"
+#include "controller.h"
+
+//#include "sturing.h"
+//#include "ui.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    STuring* mashine = new STuring();
+    Controller* mainController;
+    mainController = new Controller();
 
     return a.exec();
 }
