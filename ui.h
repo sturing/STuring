@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QtWidgets>
 #include <string>
+#include "codeeditor.h"
 
 using namespace std;
 
@@ -17,7 +18,8 @@ public: //(пришлось сделать public. Пишите, как сдел
     QLineEdit* tmLine;
     QPushButton* tmRunBtn;
     QPushButton* tmStopBtn;
-    QTextEdit* tmSrc;
+    //QTextEdit* tmSrc;
+    CodeEditor* tmSrc;
     QHBoxLayout* upLayout;
     QVBoxLayout* mainLayout;
     QTime time;

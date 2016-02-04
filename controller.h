@@ -7,7 +7,6 @@
 #include <QtWidgets>
 #include "sturing.h"
 #include "ui.h"
-#include <utility>
 
 using namespace std;
 
@@ -19,7 +18,6 @@ private:
     UI* ui;
 public:
     explicit Controller(QObject *parent = 0);
-    //Controller(STuring turing_, UI ui_);
 
 signals:
 

@@ -15,12 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp \
     controller.cpp \
     ui.cpp \
-    sturing.cpp
+    sturing.cpp \
+    codeeditor.cpp
 
 HEADERS  += \
     controller.h \
     ui.h \
-    sturing.h
+    sturing.h \
+    codeeditor.h
 CONFIG += c++11
 
 RESOURCES += \

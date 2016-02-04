@@ -67,9 +67,10 @@ void STuring::go() {
             for(;time.elapsed() < speed;) {
                 qApp->processEvents();
             }
-            emit updateLine(line);
+            //emit updateLine(line);
 
             executeCommand(stackSrc[i]);
+            emit updateLine(line);
             emit updatePointer(pointer);
             i = -1;
         }

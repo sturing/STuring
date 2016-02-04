@@ -5,7 +5,7 @@ UI::UI(QObject *parent) : QObject(parent)
     tmLine = new QLineEdit();
     tmRunBtn = new QPushButton("Пуск");
     tmStopBtn = new QPushButton("Стоп");
-    tmSrc = new QTextEdit();
+    tmSrc = new CodeEditor();
     infoLbl = new QLabel("");
     speedSlider = new QSlider(Qt::Horizontal);
     speedLbl = new QLabel("Скорость: ");
@@ -57,7 +57,7 @@ UI::UI(QObject *parent) : QObject(parent)
     icon.addFile(":/ico");
 
     mainWindow.setLayout(mainLayout);
-    mainWindow.setWindowTitle("STuring - v3.0 Milestone 1");
+    mainWindow.setWindowTitle("STuring - v3.0 Milestone 2");
     mainWindow.setWindowIcon(icon);
 
     mainWindow.show();
