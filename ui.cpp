@@ -2,7 +2,7 @@
 
 UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
 {
-    programmNameString = "STuring v3.0 Alpha 1";
+    programmNameString = "STuring v3.0 Alpha 1.1";
     app = app_;
     tmLine = new QLineEdit();
     tmRunBtn = new QPushButton("Пуск");

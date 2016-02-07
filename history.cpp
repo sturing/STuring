@@ -15,7 +15,7 @@ History::History()
     this->setEditTriggers(QTableWidget::NoEditTriggers);
     numberHistoryItem;
 
-    QObject::connect(this, SIGNAL(cellActivated(int,int)), this, SLOT(changeNumberHistoryItem(int,int)));
+    QObject::connect(this, SIGNAL(cellPressed(int,int)), this, SLOT(changeNumberHistoryItem(int,int)));
 }
 
 bool History::isEmpty() {
@@ -32,6 +32,7 @@ void History::changeNumberHistoryItem(int r, int c) {
 
 void History::addItem(QString state, QString line, int pointer) {
     historyItem.push_back(HistoryItem(state, line, pointer));
+
     updateTable();
 }
 
