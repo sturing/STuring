@@ -15,9 +15,11 @@ class Controller : public QObject
     Q_OBJECT
 private:
     STuring* turing;
+    QApplication* app;
     UI* ui;
+    bool isTableParametres;
 public:
-    explicit Controller(QObject *parent = 0);
+    explicit Controller(QApplication *app_, QObject *parent = 0);
 
 signals:
 
@@ -26,6 +28,10 @@ public slots:
     void setRunable(bool);
     void changeSpeed(int n);
     void tmStop();
+    void updateFromTable(int, int);
+    void changeTableParameter(bool);
+    void addHistory(QString state, QString line, int pointer, QString command);
+    void tmLineChanged();
 };
 
 #endif // CONTROLLER_H

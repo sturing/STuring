@@ -16,13 +16,17 @@ SOURCES += main.cpp \
     controller.cpp \
     ui.cpp \
     sturing.cpp \
-    codeeditor.cpp
+    codeeditor.cpp \
+    history.cpp \
+    historyitem.cpp
 
 HEADERS  += \
     controller.h \
     ui.h \
     sturing.h \
-    codeeditor.h
+    codeeditor.h \
+    history.h \
+    historyitem.h
 CONFIG += c++11
 
 RESOURCES += \

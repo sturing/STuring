@@ -50,7 +50,6 @@ CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
-    //connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(rectSend(QRect, int)));
     connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
 
     updateLineNumberAreaWidth(0);
@@ -138,6 +137,35 @@ void CodeEditor::highlightCurrentLine()
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
         selection.cursor = textCursor();
         selection.cursor.clearSelection();
+        //qDebug() << selection.cursor.position();
+        //selection.cursor.setPosition(1);
+        //selection.cursor.setPosition(10, QTextCursor::KeepAnchor);
+        extraSelections.append(selection);
+    }
+
+    setExtraSelections(extraSelections);
+
+    //highlightLine(3);
+}
+
+void CodeEditor::highlightLine(int line) {
+    QList<QTextEdit::ExtraSelection> extraSelections;
+
+    if (!isReadOnly()) {
+        QTextEdit::ExtraSelection selection;
+        QTextCursor cur;
+        cur.setPosition(5, QTextCursor::KeepAnchor);
+
+        QColor lineColor = QColor(0, 154, 255, 20);
+
+        selection.format.setBackground(lineColor);
+        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+        //selection.cursor = cur;
+        selection.cursor.setPosition(line);
+        qDebug() << selection.cursor.position();
+        selection.cursor.clearSelection();
+        //selection.cursor.setPosition(1);
+        //selection.cursor.setPosition(10, QTextCursor::KeepAnchor);
         extraSelections.append(selection);
     }
 

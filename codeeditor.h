@@ -73,6 +73,7 @@ private slots:
     void highlightCurrentLine();
     void updateLineNumberArea(const QRect &, int);
     void rectSend(const QRect &, int);
+    void highlightLine(int);
 
 private:
     QWidget *lineNumberArea;

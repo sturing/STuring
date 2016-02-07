@@ -5,24 +5,16 @@ STuring::STuring(QObject *parent) : QObject(parent)
 
 }
 
-void STuring::run(QString src_, string line_) {
+void STuring::run(QString src_) {
     emit Runable(true);
-
     stopped = false;
-
     stackSrc.clear();
-    nowState = "00";
 
     QString tmp1 = src_;
-    line = line_;
-    pointer = line.size();
-    line.push_back(' ');
-
     QStringList srcList = src_.split('\n');
 
     for(int i = 0; i < srcList.size(); ++i) {
-        QString tmp3 = srcList.at(i);
-        string cmd = tmp3.toStdString();
+        QString cmd = srcList.at(i);
         cmd = uncomment(cmd);
         if(cmd.size() > 0) {
             stackSrc.push_back(cmd);
@@ -33,21 +25,36 @@ void STuring::run(QString src_, string line_) {
 
     if(!stopped) {
         go();
-        //printResult();
-        //qDebug() << "Success!" << endl;
     }
 
     emit Runable(false);
 
 }
 
+void STuring::setStandardSettings(QString line_) {
+    nowState = "00";
+    line = line_;
+    pointer = line.size();
+    line.push_back(' ');
+}
+
+void STuring::setCustomSettings(QString state_, QString line_, int pointer_) {
+    nowState = state_;
+    line = line_;
+    pointer = pointer_;
+}
+
+void STuring::maxSpeedEnable(bool b) {
+    maxSpeed = b;
+}
+
 void STuring::errorsTest() {
     int s = 0;
     for(int i = 0; i < stackSrc.size(); ++i) {
-        string state = getState(stackSrc[i]);
-        string readLetter = getReadLetter(stackSrc[i]);
-        string writeLetter = getWriteLetter(stackSrc[i]);
-        string nextState = getNextState(stackSrc[i]);
+        QString state = getState(stackSrc[i]);
+        QString readLetter = getReadLetter(stackSrc[i]);
+        QString writeLetter = getWriteLetter(stackSrc[i]);
+        QString nextState = getNextState(stackSrc[i]);
 
         if(state.size() == 0 || readLetter.size() == 0 || readLetter.size() > 1 || writeLetter.size() == 0 || writeLetter.size() > 1 || nextState.size() == 0) {
             //Error::error(i);
@@ -60,14 +67,21 @@ void STuring::errorsTest() {
 void STuring::go() {
 
     emit Runable(true);
-
+    emit commandExecuted(nowState, line, pointer, "");
     for(int i = 0; i < stackSrc.size() && !stopped && isRunning; ++i) {
         if(testOfExecute(stackSrc[i])) {
-            time.start();
-            for(;time.elapsed() < speed;) {
-                qApp->processEvents();
+            if(!maxSpeed) {
+                time.start();
+                for(;time.elapsed() < speed;) {
+                    qApp->processEvents();
+                }
             }
-            //emit updateLine(line);
+            else {
+                time.start();
+                for(;time.elapsed() < 0.00001;) {
+                    qApp->processEvents();
+                }
+            }
 
             executeCommand(stackSrc[i]);
             emit updateLine(line);
@@ -84,9 +98,9 @@ void STuring::go() {
     emit Runable(false);
 }
 
-string STuring::get(string& cmd, int k) {
+QString STuring::get(QString& cmd, int k) {
     int s = 0;
-    string tmp;
+    QString tmp;
 
     for(int i = 0; i < cmd.size(); ++i) {
         if(cmd[i] == ',') {++s; ++i;}
@@ -97,16 +111,16 @@ string STuring::get(string& cmd, int k) {
     return tmp;
 }
 
-string STuring::getState(string& cmd) {return get(cmd, 0);}
-string STuring::getReadLetter(string& cmd) {return get(cmd, 1);}
-string STuring::getWriteLetter(string& cmd) {return get(cmd, 2);}
-string STuring::getNextState(string& cmd) {return get(cmd, 3);}
+QString STuring::getState(QString& cmd) {return get(cmd, 0);}
+QString STuring::getReadLetter(QString& cmd) {return get(cmd, 1);}
+QString STuring::getWriteLetter(QString& cmd) {return get(cmd, 2);}
+QString STuring::getNextState(QString& cmd) {return get(cmd, 3);}
 
-string STuring::uncomment(string& str) {
-    string tmp;
+QString STuring::uncomment(QString& str) {
+    QString tmp;
 
     for(int i = 0; i < str.size(); ++i) {
-        if(str[i] == '/' && i < str.at(i) - 1) {
+        if(str[i] == '/' && i < str.at(i).unicode() - 1) {
             if(str[i+1] == '/') {
                 return tmp;
             }
@@ -124,16 +138,16 @@ bool STuring::validationCommandTest(/*string& cmd*/) {
     return true;
 }
 
-bool STuring::testOfExecute(string& cmd) {
-    string state = getState(cmd);
-    string readLetter = getReadLetter(cmd);
+bool STuring::testOfExecute(QString &cmd) {
+    QString state = getState(cmd);
+    QString readLetter = getReadLetter(cmd);
 
     return state == nowState && readLetter[0] == line[pointer];
 }
 
-void STuring::executeCommand(string& cmd) {
-    string writeLetter = getWriteLetter(cmd);
-    string nextState = getNextState(cmd);
+void STuring::executeCommand(QString& cmd) {
+    QString writeLetter = getWriteLetter(cmd);
+    QString nextState = getNextState(cmd);
 
     if(writeLetter == ">") {moveRight();}
     else if(writeLetter == "<") {moveLeft();}
@@ -142,14 +156,11 @@ void STuring::executeCommand(string& cmd) {
 
     nowState = nextState;
 
-    QString tmp = QString::fromStdString(line);
-    //qDebug() << QString::fromStdString(line);
-    //tmLine->clear();
-    //tmLine->insert(tmp);
+    emit commandExecuted(nowState, line, pointer, cmd);
 
 }
 
-void STuring::changeLetter(char let) {
+void STuring::changeLetter(QChar let) {
     line[pointer] = let;
 }
 

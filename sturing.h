@@ -11,30 +11,31 @@ class STuring : public QObject
 {
     Q_OBJECT
 
-public: //(пришлось сделать public. Пишите, как сделать так, чтобы все работало с инкапсуляцией)
+public:
     int pointer;
     bool stopped;
-    string nowState, line;
-    vector<string>stackSrc;
+    QString nowState, line;
+    QVector<QString>stackSrc;
     bool isRunning;
+    bool maxSpeed;
     double speed;
     QTime time;
 
     void go();
-    void executeCommand(string& cmd);
-    void changeLetter(char let);
+    void executeCommand(QString& cmd);
+    void changeLetter(QChar let);
     void moveRight();
     void moveLeft();
     void stop();
 
-    string getState(string& cmd);
-    string getReadLetter(string& cmd);
-    string getWriteLetter(string& cmd);
-    string getNextState(string& cmd);
-    string get(string& cmd, int k);
-    string uncomment(string& str);
+    QString getState(QString& cmd);
+    QString getReadLetter(QString& cmd);
+    QString getWriteLetter(QString& cmd);
+    QString getNextState(QString& cmd);
+    QString get(QString& cmd, int k);
+    QString uncomment(QString& str);
 
-    bool testOfExecute(string& cmd);
+    bool testOfExecute(QString& cmd);
     bool validationCommandTest(/*string& cmd*/);
     void errorsTest();
 public:
@@ -44,11 +45,16 @@ signals:
     void getData();
     void getSource();
     void Runable(bool);
-    void updateLine(string);
+    void updateLine(QString);
     void updatePointer(int);
+    void getSettings();
+    void commandExecuted(QString state, QString line, int pointer, QString command);
 
 public slots:
-    void run(QString src_, string line_);
+    void run(QString src_);
+    void maxSpeedEnable(bool);
+    void setStandardSettings(QString line_);
+    void setCustomSettings(QString state_, QString line_, int pointer_);
 };
 
 #endif // STURING_H

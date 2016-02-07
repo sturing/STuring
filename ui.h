@@ -5,38 +5,74 @@
 #include <QtWidgets>
 #include <string>
 #include "codeeditor.h"
+#include "history.h"
 
 using namespace std;
 
 class UI : public QObject
 {
     Q_OBJECT
+private:
+    void createActions();
 
-public: //(пришлось сделать public. Пишите, как сделать так, чтобы все работало с инкапсуляцией)
+public:
+    QString programmNameString;
     QIcon icon;
     QWidget mainWindow;
     QLineEdit* tmLine;
     QPushButton* tmRunBtn;
     QPushButton* tmStopBtn;
-    //QTextEdit* tmSrc;
+    QPushButton* clearHistoryBtn;
     CodeEditor* tmSrc;
     QHBoxLayout* upLayout;
-    QVBoxLayout* mainLayout;
+    QVBoxLayout* turingLayout;
     QTime time;
     QHBoxLayout* downLayout;
+    QHBoxLayout* menuLayout;
+    QHBoxLayout* maxSpdLayout;
     QLabel* infoLbl;
     QLabel* speedLbl;
     QFont fontLine, fontSrc, fontLbl;
     QSlider* speedSlider;
+
+    QLabel* maxSpeedLbl;
+    QCheckBox* maxSpeedCkb;
+
+    QHBoxLayout* historyCkbLayout;
+    QLabel* historyLbl;
+    QCheckBox* historyCkb;
+
+    QAction* saveAction;
+    QAction* openAction;
+
+    QMenuBar* menuBar;
+    QMenu* fileMenu;
+    QMenu* about;
+
+    QApplication* app;
+
+    QWidget aboutDialog;
+    QPixmap logo;
+    QLabel* logoLbl;
+    QLabel* programName;
+    QLabel* aboutLbl;
+    QVBoxLayout* dialogMainLayout;
+
+    QHBoxLayout* appLayout;
+    QVBoxLayout* historyLayout;
+    QVBoxLayout* mainVerticalSeparator;
+    History* history;
+    int dialogW = 300, dialogH = 200;
 public:
-    explicit UI(QObject *parent = 0);
+    explicit UI(QApplication *app_, QObject *parent = 0);
 signals:
 
 public slots:
     void setSrcSize();
     void setPointer(int);
-    void setLine(string);
-
+    void setLine(QString);
+    void dialogShow();
+    void createTableHistory();
 };
 
 #endif // UI_H
