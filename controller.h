@@ -6,6 +6,7 @@
 #include <string>
 #include <QtWidgets>
 #include "sturing.h"
+#include "errorcontroller.h"
 #include "ui.h"
 
 using namespace std;
@@ -17,6 +18,7 @@ private:
     STuring* turing;
     QApplication* app;
     UI* ui;
+    ErrorController* errControl;
     bool isTableParametres;
 public:
     explicit Controller(QApplication *app_, QObject *parent = 0);
@@ -32,6 +34,7 @@ public slots:
     void changeTableParameter(bool);
     void addHistory(QString state, QString line, int pointer, QString command);
     void tmLineChanged();
+    void errorTest(QVector<QString>, QString);
 };
 
 #endif // CONTROLLER_H

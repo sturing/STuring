@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QtWidgets>
 
-
 using namespace std;
 
 class STuring : public QObject
@@ -16,6 +15,7 @@ public:
     bool stopped;
     QString nowState, line;
     QVector<QString>stackSrc;
+    bool errorsHave;
     bool isRunning;
     bool maxSpeed;
     double speed;
@@ -37,7 +37,6 @@ public:
 
     bool testOfExecute(QString& cmd);
     bool validationCommandTest(/*string& cmd*/);
-    void errorsTest();
 public:
     explicit STuring(QObject *parent = 0);
 
@@ -49,6 +48,7 @@ signals:
     void updatePointer(int);
     void getSettings();
     void commandExecuted(QString state, QString line, int pointer, QString command);
+    void testErrors(QVector<QString>, QString);
 
 public slots:
     void run(QString src_);

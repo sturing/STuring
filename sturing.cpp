@@ -1,6 +1,6 @@
 #include "sturing.h"
 
-STuring::STuring(QObject *parent) : QObject(parent)
+STuring::STuring(QObject *parent) : QObject(parent), errorsHave(0)
 {
 
 }
@@ -21,9 +21,13 @@ void STuring::run(QString src_) {
         }
     }
 
-    errorsTest();
+    //errorsTest();
 
-    if(!stopped) {
+    //errControl = new ErrorController(stackSrc, line);
+    //errorTest = testErrors(stackSrc, line);
+    emit testErrors(stackSrc, line);
+
+    if(!stopped && !errorsHave) {
         go();
     }
 
@@ -48,7 +52,7 @@ void STuring::maxSpeedEnable(bool b) {
     maxSpeed = b;
 }
 
-void STuring::errorsTest() {
+/*void STuring::errorsTest() {
     int s = 0;
     for(int i = 0; i < stackSrc.size(); ++i) {
         QString state = getState(stackSrc[i]);
@@ -62,7 +66,7 @@ void STuring::errorsTest() {
             ++s;
         }
     }
-}
+}*/
 
 void STuring::go() {
 

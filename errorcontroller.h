@@ -2,6 +2,7 @@
 #define ERRORCONTROLLER_H
 
 #include <QObject>
+#include <QDebug>
 #include "sturing.h"
 
 class ErrorController : public STuring
@@ -10,9 +11,20 @@ class ErrorController : public STuring
 private:
     QString errorString;
     QVector<QString>stackSrc;
-    void errorTest();
+    QString line;
+    bool errorsHave;
+    QString errorTest1();
+    QString errorTest2();
+    QString errorTest3();
+    QString errorTest4();
+    QString errorTest5();
+    QString errorTest6();
+    QString errorTest7();
 public:
-    explicit ErrorController(QVector<QString>stackSrc_);
+    explicit ErrorController(QVector<QString>stackSrc_, QString line_);
+    ErrorController();
+    QString errorTest();
+    bool getErrorTest();
 
 signals:
 

@@ -6,6 +6,7 @@ Controller::Controller(QApplication *app_, QObject *parent) : QObject(parent) {
     turing = new STuring();
     changeSpeed(ui->speedSlider->value());
     isTableParametres = false;
+    errControl = new ErrorController();
 
     QObject::connect(ui->tmRunBtn, SIGNAL(clicked()), this, SLOT(tmRun()));
     QObject::connect(turing, SIGNAL(Runable(bool)), this, SLOT(setRunable(bool)));
@@ -21,6 +22,16 @@ Controller::Controller(QApplication *app_, QObject *parent) : QObject(parent) {
     //QObject::connect(ui->tmLine, SIGNAL(textChanged(QString)), history, SLOT(clearAllHistory()));
     QObject::connect(ui->tmSrc, SIGNAL(textChanged()), ui->history, SLOT(clearAllHistory()));
     QObject::connect(ui->tmLine, SIGNAL(textChanged(QString)), this, SLOT(tmLineChanged()));
+    QObject::connect(turing, SIGNAL(testErrors(QVector<QString>,QString)), this, SLOT(errorTest(QVector<QString>,QString)));
+    //QObject::connect(errControl, SIGNAL(errorHave(QString)), this, SLOT(printErrors(QString)));
+}
+
+void Controller::errorTest(QVector<QString> src, QString line) {
+    errControl = new ErrorController(src, line);
+    QString errOut = errControl->errorTest();
+    turing->errorsHave = errControl->getErrorTest();
+
+    ui->errorConsole->setText(errOut);
 }
 
 void Controller::tmLineChanged() {
