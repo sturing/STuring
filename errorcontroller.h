@@ -9,6 +9,7 @@ class ErrorController : public STuring
 {
     Q_OBJECT
 private:
+    int getExtraParametres(QString s);
     QString errorString;
     QString src;
     QVector<QString>cmd;
