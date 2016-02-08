@@ -1,11 +1,16 @@
 #include "errorcontroller.h"
 
-ErrorController::ErrorController(QVector<QString>stackSrc_, QString line_) : stackSrc(stackSrc_), line(line_), errorsHave(0)
+ErrorController::ErrorController(QString src_, QString line_) : src(src_), line(line_), errorsHave(0)
 {
+    QStringList commandList = src.split('\n');
+
+    for(int i = 0; i < commandList.size(); ++i) {
+        cmd.push_back(commandList.at(i));
+    }
 
 }
 
-ErrorController::ErrorController() : stackSrc(0), line(""), errorsHave(0) {
+ErrorController::ErrorController() : line(""), errorsHave(0) {
 
 }
 
@@ -31,6 +36,7 @@ QString ErrorController::errorTest() {
 
     //Проверка ленты МТ на неправильные параметры
     errorString += errorTest1();
+    errorString += errorTest2();
 
     errorsHave = !errorString.isEmpty();
 
@@ -43,7 +49,7 @@ bool ErrorController::getErrorTest() {
 }
 
 QString ErrorController::errorTest1() {
-    QString res = "> Использование запрещенных символов (#, <, >) в ленте МТ.";
+    QString res = "> Использование запрещенных символов (#, <, >) в ленте МТ.\n";
 
     for(int i = 0; i < line.size(); ++i) {
         if(line[i] == '<' || line[i] == '>' || line[i] == '#') {return res;}
@@ -54,7 +60,23 @@ QString ErrorController::errorTest1() {
 }
 
 QString ErrorController::errorTest2() {
+    QString res;
 
+    for(int i = 0; i < cmd.size(); ++i) {
+        for(int j = 0; j < cmd.size(); ++j) {
+            if(!cmd[i].isEmpty() &&  !cmd[i].isEmpty() && i < j) {
+                if(uncomment(cmd[i]) == uncomment(cmd[j])) {
+                    res += "> Команды в строках ";
+                    res += QString::number(i);
+                    res += " и ";
+                    res += QString::number(j);
+                    res += " повторяются. Удалите повторяющиеся команды.\n";
+                }
+            }
+        }
+    }
+
+    return res;
 }
 
 QString ErrorController::errorTest3() {

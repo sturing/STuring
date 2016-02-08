@@ -10,7 +10,8 @@ class ErrorController : public STuring
     Q_OBJECT
 private:
     QString errorString;
-    QVector<QString>stackSrc;
+    QString src;
+    QVector<QString>cmd;
     QString line;
     bool errorsHave;
     QString errorTest1();
@@ -21,7 +22,7 @@ private:
     QString errorTest6();
     QString errorTest7();
 public:
-    explicit ErrorController(QVector<QString>stackSrc_, QString line_);
+    explicit ErrorController(QString src_, QString line_);
     ErrorController();
     QString errorTest();
     bool getErrorTest();

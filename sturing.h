@@ -48,7 +48,7 @@ signals:
     void updatePointer(int);
     void getSettings();
     void commandExecuted(QString state, QString line, int pointer, QString command);
-    void testErrors(QVector<QString>, QString);
+    void testErrors(/*QVector<QString>, QString*/);
 
 public slots:
     void run(QString src_);

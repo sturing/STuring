@@ -25,7 +25,7 @@ void STuring::run(QString src_) {
 
     //errControl = new ErrorController(stackSrc, line);
     //errorTest = testErrors(stackSrc, line);
-    emit testErrors(stackSrc, line);
+    emit testErrors(/*stackSrc, line*/);
 
     if(!stopped && !errorsHave) {
         go();

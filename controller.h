@@ -34,7 +34,7 @@ public slots:
     void changeTableParameter(bool);
     void addHistory(QString state, QString line, int pointer, QString command);
     void tmLineChanged();
-    void errorTest(QVector<QString>, QString);
+    void errorTest();
 };
 
 #endif // CONTROLLER_H

@@ -22,12 +22,12 @@ Controller::Controller(QApplication *app_, QObject *parent) : QObject(parent) {
     //QObject::connect(ui->tmLine, SIGNAL(textChanged(QString)), history, SLOT(clearAllHistory()));
     QObject::connect(ui->tmSrc, SIGNAL(textChanged()), ui->history, SLOT(clearAllHistory()));
     QObject::connect(ui->tmLine, SIGNAL(textChanged(QString)), this, SLOT(tmLineChanged()));
-    QObject::connect(turing, SIGNAL(testErrors(QVector<QString>,QString)), this, SLOT(errorTest(QVector<QString>,QString)));
+    QObject::connect(turing, SIGNAL(testErrors()), this, SLOT(errorTest()));
     //QObject::connect(errControl, SIGNAL(errorHave(QString)), this, SLOT(printErrors(QString)));
 }
 
-void Controller::errorTest(QVector<QString> src, QString line) {
-    errControl = new ErrorController(src, line);
+void Controller::errorTest() {
+    errControl = new ErrorController(ui->tmSrc->toPlainText(), ui->tmLine->text());
     QString errOut = errControl->errorTest();
     turing->errorsHave = errControl->getErrorTest();
 
