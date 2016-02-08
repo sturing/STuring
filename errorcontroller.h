@@ -15,6 +15,7 @@ private:
     QVector<QString>cmd;
     QString line;
     bool errorsHave;
+    QString errorTest0();
     QString errorTest1();
     QString errorTest2();
     QString errorTest3();

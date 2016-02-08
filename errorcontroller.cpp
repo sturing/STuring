@@ -16,8 +16,11 @@ ErrorController::ErrorController() : line(""), errorsHave(0) {
 }
 
 QString ErrorController::errorTest() {
-    errorString += errorTest1();
+    errorString += errorTest0();
     bool stopped = 0;
+    if(errorTest0().isEmpty() && !stopped) {
+        errorString += errorTest1();
+    } else {stopped = 1;}
     if(errorTest1().isEmpty() && !stopped) {
         errorString += errorTest2();
     } else {stopped = 1;}
@@ -42,6 +45,22 @@ QString ErrorController::errorTest() {
 
 bool ErrorController::getErrorTest() {
     return errorsHave;
+}
+
+QString ErrorController::errorTest0() { //не без этого
+    QString res;
+
+    for(int i = 0; i < cmd.size(); ++i) {
+        if(cmd[i].size() > 0) {
+            break;
+        }
+
+        if(cmd[i].size() == 0 && i == cmd.size() - 1) {
+            res += "> И где, собственно, код? :(";
+        }
+    }
+
+    return res;
 }
 
 QString ErrorController::errorTest1() { //Ошибки синтаксиса в ленте МТ (1)
