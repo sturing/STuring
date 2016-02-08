@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     sturing.cpp \
     codeeditor.cpp \
     history.cpp \
-    historyitem.cpp
+    historyitem.cpp \
+    errorcontroller.cpp
 
 HEADERS  += \
     controller.h \
@@ -26,7 +27,8 @@ HEADERS  += \
     sturing.h \
     codeeditor.h \
     history.h \
-    historyitem.h
+    historyitem.h \
+    errorcontroller.h
 CONFIG += c++11
 
 RESOURCES += \

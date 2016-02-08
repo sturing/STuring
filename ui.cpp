@@ -12,6 +12,8 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     infoLbl = new QLabel("");
     speedSlider = new QSlider(Qt::Horizontal);
     speedLbl = new QLabel("Скорость:");
+    errorConsole = new QTextEdit();
+    errorConsole->setReadOnly(true);
 
     maxSpeedLbl = new QLabel("Максимальная скорость:");
     maxSpeedCkb = new QCheckBox();
@@ -33,8 +35,8 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     upLayout->addWidget(clearHistoryBtn);
     upLayout->setMargin(3);
     history = new History();
-    historyLayout = new QVBoxLayout();
-    historyLayout->setMargin(3);
+    rightLayout = new QVBoxLayout();
+    rightLayout->setMargin(3);
 
     downLayout->addWidget(infoLbl);
     //maxSpdLayout->addWidget(maxSpeedLbl);
@@ -66,15 +68,21 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     turingLayout->setMargin(3);
     turingLayout->addWidget(tmSrc);
     appLayout->addLayout(turingLayout);
-    historyLayout->addWidget(history);
     historyCkbLayout = new QHBoxLayout();
-    historyLbl = new QLabel("Данные из таблицы");
+    historyLbl = new QLabel("Данные из таблицы: ");
     historyCkb = new QCheckBox(false);
     historyCkbLayout->addWidget(historyLbl);
     historyCkbLayout->addWidget(historyCkb);
-    historyLayout->addLayout(historyCkbLayout);
+    historyCkbLayout->setAlignment(Qt::AlignLeft);
+    rightLayout->addLayout(historyCkbLayout);
+    errorLbl = new QLabel("Консоль ошибок:");
+    rightLayout->addWidget(history);
+    rightLayout->addWidget(errorLbl);
+    rightLayout->addWidget(errorConsole);
+    errorConsole->setMaximumWidth(400);
+    errorConsole->setMaximumHeight(200);
     createTableHistory();
-    appLayout->addLayout(historyLayout);
+    appLayout->addLayout(rightLayout);
     mainVerticalSeparator = new QVBoxLayout();
     mainVerticalSeparator->addLayout(menuLayout);
     mainVerticalSeparator->addLayout(upLayout);

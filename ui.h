@@ -57,9 +57,11 @@ public:
     QLabel* programName;
     QLabel* aboutLbl;
     QVBoxLayout* dialogMainLayout;
+    QTextEdit* errorConsole;
+    QLabel* errorLbl;
 
     QHBoxLayout* appLayout;
-    QVBoxLayout* historyLayout;
+    QVBoxLayout* rightLayout;
     QVBoxLayout* mainVerticalSeparator;
     History* history;
     int dialogW = 300, dialogH = 200;
