@@ -21,7 +21,6 @@ private:
     QString errorTest4();
     QString errorTest5();
     QString errorTest6();
-    QString errorTest7();
 public:
     explicit ErrorController(QString src_, QString line_);
     ErrorController();

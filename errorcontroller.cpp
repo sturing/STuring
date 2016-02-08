@@ -38,8 +38,22 @@ QString ErrorController::errorTest() {
 
     //Проверка ленты МТ на неправильные параметры
     errorString += errorTest1();
-    errorString += errorTest2();
-    errorString += errorTest3();
+    bool stopped = 0;
+    if(errorTest1().isEmpty() && !stopped) {
+        errorString += errorTest2();
+    } else {stopped = 1;}
+    if(errorTest2().isEmpty() && !stopped) {
+        errorString += errorTest3();
+    } else {stopped = 1;}
+    if(errorTest3().isEmpty() && !stopped) {
+        errorString += errorTest4();
+    } else {stopped = 1;}
+    if(errorTest4().isEmpty() && !stopped) {
+        errorString += errorTest5();
+    } else {stopped = 1;}
+    if(errorTest5().isEmpty() && !stopped) {
+        errorString += errorTest6();
+    } else {stopped = 1;}
 
     errorsHave = !errorString.isEmpty();
 
@@ -62,7 +76,7 @@ QString ErrorController::errorTest1() { //Ошибки синтаксиса в �
 
 }
 
-QString ErrorController::errorTest2() { //Повторение команд (5)
+QString ErrorController::errorTest5() { //Повторение команд (5)
     QString res;
 
     for(int i = 0; i < cmd.size(); ++i) {
@@ -70,9 +84,9 @@ QString ErrorController::errorTest2() { //Повторение команд (5)
             if(!cmd[i].isEmpty() &&  !cmd[i].isEmpty() && i < j) {
                 if(cmd[i] == cmd[j]) {
                     res += "> Команды в строках ";
-                    res += QString::number(i + 1);
+                    res += QString::number(i+1);
                     res += " и ";
-                    res += QString::number(j + 1);
+                    res += QString::number(j+1);
                     res += " повторяются. Удалите повторяющиеся команды.\n";
                 }
             }
@@ -82,7 +96,7 @@ QString ErrorController::errorTest2() { //Повторение команд (5)
     return res;
 }
 
-QString ErrorController::errorTest3() { //Состояния (4)
+QString ErrorController::errorTest4() { //Состояния (4)
     QString res;
 
     QVector<QString>inputState;
@@ -100,7 +114,7 @@ QString ErrorController::errorTest3() { //Состояния (4)
         if(i == inputState.size() - 1) {
             res += "> Точки входа (состояния \'00\') не существует!\n";
 
-            return cmd;
+            return res;
         }
     }
 
@@ -127,11 +141,9 @@ QString ErrorController::errorTest3() { //Состояния (4)
     }
 
     return res;
-
-
 }
 
-QString ErrorController::errorTest4() { //Синтаксис (2) - лишние параметры
+QString ErrorController::errorTest2() { //Синтаксис (2) - лишние параметры
     QString res;
 
     for(int i = 0; i < cmd.size(); ++i) {
@@ -139,42 +151,74 @@ QString ErrorController::errorTest4() { //Синтаксис (2) - лишние 
             res += "> Лишние параметры (";
             res += QString::number(getExtraParametres(cmd[i]));
             res += ") в команде на строке ";
-            res += QString::number(i);
-            res += "\n"
+            res += QString::number(i+1);
+            res += "\n";
         }
 
         else if(getExtraParametres(cmd[i]) < 0) {
-            res += "> Лишние параметры (";
+            res += "> Нехватка параметров (";
             res += QString::number(-getExtraParametres(cmd[i]));
             res += ") в команде на строке ";
-            res += QString::number(i);
-            res += "\n"
+            res += QString::number(i+1);
+            res += "\n";
         }
     }
 
-
+    return res;
 }
 
-QString ErrorController::errorTest5() { //Синтаксис (3) - нехватка аргументов
-    /*for(int i = 0;) {
+QString ErrorController::errorTest3() { //Синтаксис (3) - нехватка аргументов
+    QString res;
 
-    }*/
+    for(int i = 0; i < cmd.size(); ++i) {
+        if(getState(cmd[i]).size() < 1) {
+            res += "> Параметр (1) нулевой длины в строке ";
+            res += QString::number(i+1);
+            res += "\n";
+        }
+
+        if(getReadLetter(cmd[i]).size() > 1) {
+            res += "> Параметр (2) имеет слишком большую длину в строке ";
+            res += QString::number(i+1);
+            res += "\n";
+        }
+
+        if(getWriteLetter(cmd[i]).size() > 1) {
+            res += "> Параметр (3) имеет слишком большую длину в строке ";
+            res += QString::number(i+1);
+            res += "\n";
+        }
+
+        if(getNextState(cmd[i]).size() < 1) {
+            res += "> Параметр (4) нулевой длины в строке ";
+            res += QString::number(i+1);
+            res += "\n";
+        }
+    }
+
+    return res;
 }
 
-QString ErrorController::errorTest6() {
+QString ErrorController::errorTest6() { //Остатки ошибок (6)
+    QString res;
 
-}
+    for(int i = 0; i < cmd.size(); ++i) {
+        if(getReadLetter(cmd[i]) == "#" || getReadLetter(cmd[i]) == "<" || getReadLetter(cmd[i]) == ">") {
+            res += "> Параметр (1) имеет недопустимый символ в строке ";
+            res += QString::number(i+1);
+            res += "\n";
+        }
+    }
 
-QString ErrorController::errorTest7() {
-
+    return res;
 }
 
 int ErrorController::getExtraParametres(QString s) {
     int c = 0;
 
-    for(int i = 0; i < s; ++i) {
+    for(int i = 0; i < s.size(); ++i) {
         if(s[i] == ',') ++c;
     }
 
-    return s - 3;
+    return c - 3;
 }
