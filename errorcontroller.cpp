@@ -67,9 +67,9 @@ QString ErrorController::errorTest2() {
             if(!cmd[i].isEmpty() &&  !cmd[i].isEmpty() && i < j) {
                 if(uncomment(cmd[i]) == uncomment(cmd[j])) {
                     res += "> Команды в строках ";
-                    res += QString::number(i);
+                    res += QString::number(i + 1);
                     res += " и ";
-                    res += QString::number(j);
+                    res += QString::number(j + 1);
                     res += " повторяются. Удалите повторяющиеся команды.\n";
                 }
             }
