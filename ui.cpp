@@ -2,7 +2,7 @@
 
 UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
 {
-    programmNameString = "STuring v3.0 Alpha 1.1";
+    programmNameString = "STuring v3.0 Beta 1";
     app = app_;
     tmLine = new QLineEdit();
     tmRunBtn = new QPushButton("Пуск");
@@ -39,8 +39,6 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     rightLayout->setMargin(3);
 
     downLayout->addWidget(infoLbl);
-    //maxSpdLayout->addWidget(maxSpeedLbl);
-    //maxSpdLayout->addWidget(maxSpeedCkb, Qt::AlignLeft);
     downLayout->addLayout(maxSpdLayout, Qt::AlignRight);
     downLayout->addWidget(speedLbl, 0, Qt::AlignRight);
     downLayout->addWidget(speedSlider);
