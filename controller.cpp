@@ -46,7 +46,15 @@ void Controller::updateFromTable(int r, int c) {
 }
 
 void Controller::addHistory(QString state, QString line, int pointer, QString command) {
-    ui->history->addItem(state, line, pointer, command);
+
+    if(command.isEmpty()) {
+            if(ui->history->getNumberHistoryItem() == 0) {
+                ui->history->addItem(state, line, pointer, command);
+            }
+    }
+    else {
+        ui->history->addItem(state, line, pointer, command);
+    }
 }
 
 void Controller::changeTableParameter(bool b) {

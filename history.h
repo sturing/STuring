@@ -15,6 +15,7 @@ public:
     void addItem(QString state, QString line, int pointer);
     void addItem(QString state, QString line, int pointer, QString command);
     void updateTable();
+    bool isFirstHave();
     void clearPart();
     QString getState(int n);
     QString getLine(int n);

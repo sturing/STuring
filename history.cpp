@@ -31,13 +31,25 @@ void History::changeNumberHistoryItem(int r, int c) {
 }
 
 void History::addItem(QString state, QString line, int pointer) {
-    historyItem.push_back(HistoryItem(state, line, pointer));
+    if(!isFirstHave()) {
+        historyItem.push_back(HistoryItem(state, line, pointer));
+    }
 
     updateTable();
 }
 
+bool History::isFirstHave() {
+    for(int i = 0; i < historyItem.size(); ++i) {
+        if(!historyItem[i].getCommand().isEmpty()) {return 1;}
+    }
+
+    return 0;
+}
+
 void History::addItem(QString state, QString line, int pointer, QString command) {
-    historyItem.push_back(HistoryItem(state, line, pointer, command));
+    //if(!(command.isEmpty() && !isFirstHave)) {
+        historyItem.push_back(HistoryItem(state, line, pointer, command));
+   // }
     updateTable();
 }
 
