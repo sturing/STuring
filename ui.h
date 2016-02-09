@@ -6,6 +6,7 @@
 #include <string>
 #include "codeeditor.h"
 #include "history.h"
+#include "filecontroller.h"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ private:
     void createActions();
 
 public:
+    FileController* fControl;
     QString programmNameString;
     QIcon icon;
     QWidget mainWindow;
@@ -75,6 +77,7 @@ public slots:
     void setLine(QString);
     void dialogShow();
     void createTableHistory();
+    void openFile(QString, QString);
 };
 
 #endif // UI_H

@@ -4,6 +4,7 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
 {
     programmNameString = "STuring v3.0 Beta 1";
     app = app_;
+    fControl = new FileController();
     tmLine = new QLineEdit();
     tmRunBtn = new QPushButton("Пуск");
     tmStopBtn = new QPushButton("Стоп");
@@ -128,6 +129,14 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
 
     QObject::connect(tmSrc, SIGNAL(textChanged()), this, SLOT(setSrcSize()));
     QObject::connect(clearHistoryBtn, SIGNAL(clicked()), history, SLOT(clearAllHistory()));
+    QObject::connect(fControl, SIGNAL(opennedFile(QString,QString)), this, SLOT(openFile(QString, QString)));
+}
+
+void UI::openFile(QString src, QString line) {
+    history->clearAllHistory();
+
+    tmSrc->document()->setPlainText(src);
+    tmLine->setText(line);
 }
 
 void UI::createTableHistory() {
@@ -143,8 +152,9 @@ void UI::createActions() {
     menuBar = new QMenuBar();
 
     fileMenu = new QMenu("Файл");
-    //fileMenu->addAction("Открыть...");
-    //fileMenu->addAction("Сохранить...");
+    fileMenu->addAction("Открыть...", fControl, SLOT(openDialogEnable()), Qt::CTRL + Qt::Key_O);
+    //fileMenu->addAction("Сохранить");
+    fileMenu->addAction("Сохранить как...", fControl, SLOT(saveDialogEnable()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
     fileMenu->addAction("Выход", app, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
 
     about = new QMenu("Справка");

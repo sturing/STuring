@@ -20,12 +20,7 @@ void STuring::run(QString src_) {
             stackSrc.push_back(cmd);
         }
     }
-
-    //errorsTest();
-
-    //errControl = new ErrorController(stackSrc, line);
-    //errorTest = testErrors(stackSrc, line);
-    emit testErrors(/*stackSrc, line*/);
+    emit testErrors();
 
     if(!stopped && !errorsHave) {
         go();
@@ -52,22 +47,6 @@ void STuring::maxSpeedEnable(bool b) {
     maxSpeed = b;
 }
 
-/*void STuring::errorsTest() {
-    int s = 0;
-    for(int i = 0; i < stackSrc.size(); ++i) {
-        QString state = getState(stackSrc[i]);
-        QString readLetter = getReadLetter(stackSrc[i]);
-        QString writeLetter = getWriteLetter(stackSrc[i]);
-        QString nextState = getNextState(stackSrc[i]);
-
-        if(state.size() == 0 || readLetter.size() == 0 || readLetter.size() > 1 || writeLetter.size() == 0 || writeLetter.size() > 1 || nextState.size() == 0) {
-            //Error::error(i);
-            stopped = true;
-            ++s;
-        }
-    }
-}*/
-
 void STuring::go() {
 
     emit Runable(true);
@@ -93,7 +72,6 @@ void STuring::go() {
             i = -1;
         }
         if(i == stackSrc.size() - 1) {
-            //Error::undefinedTransition(nowState, line[pointer]);
             i = -1;
             stopped = true;
         }
@@ -138,9 +116,9 @@ QString STuring::uncomment(QString& str) {
     }
 }
 
-bool STuring::validationCommandTest(/*string& cmd*/) {
+/*bool STuring::validationCommandTest() {
     return true;
-}
+}*/
 
 bool STuring::testOfExecute(QString &cmd) {
     QString state = getState(cmd);

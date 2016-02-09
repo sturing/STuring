@@ -19,7 +19,8 @@ SOURCES += main.cpp \
     codeeditor.cpp \
     history.cpp \
     historyitem.cpp \
-    errorcontroller.cpp
+    errorcontroller.cpp \
+    filecontroller.cpp
 
 HEADERS  += \
     controller.h \
@@ -28,7 +29,8 @@ HEADERS  += \
     codeeditor.h \
     history.h \
     historyitem.h \
-    errorcontroller.h
+    errorcontroller.h \
+    filecontroller.h
 CONFIG += c++11
 
 RESOURCES += \

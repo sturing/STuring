@@ -36,7 +36,7 @@ public:
     QString uncomment(QString& str);
 
     bool testOfExecute(QString& cmd);
-    bool validationCommandTest(/*string& cmd*/);
+    //bool validationCommandTest(/*string& cmd*/);
 public:
     explicit STuring(QObject *parent = 0);
 
