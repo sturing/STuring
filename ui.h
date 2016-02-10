@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QtWidgets>
 #include <string>
+#include <QDebug>
 #include "codeeditor.h"
 #include "history.h"
 #include "filecontroller.h"
@@ -78,6 +79,9 @@ public slots:
     void dialogShow();
     void createTableHistory();
     void openFile(QString, QString);
+    void saveFile();
+    void fileNameWindow(QString str);
+    void createNewFile();
 };
 
 #endif // UI_H

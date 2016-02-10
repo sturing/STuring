@@ -127,9 +127,14 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     mainWindow.show();
 
 
+
+
     QObject::connect(tmSrc, SIGNAL(textChanged()), this, SLOT(setSrcSize()));
     QObject::connect(clearHistoryBtn, SIGNAL(clicked()), history, SLOT(clearAllHistory()));
     QObject::connect(fControl, SIGNAL(opennedFile(QString,QString)), this, SLOT(openFile(QString, QString)));
+    QObject::connect(fControl, SIGNAL(saveFileSign()),this, SLOT(saveFile()));
+    QObject::connect(fControl, SIGNAL(sendPath(QString)), this, SLOT(fileNameWindow(QString)));
+    fControl->createNewFile();
 }
 
 void UI::openFile(QString src, QString line) {
@@ -148,13 +153,29 @@ void UI::dialogShow() {
     aboutDialog.show();
 }
 
+void UI::saveFile() {
+    QString src =tmSrc->document()->toPlainText();
+    QString line = tmLine->text();
+    qDebug() << src;
+    fControl->saveFile(src, line);
+}
+
+void UI::fileNameWindow(QString str) {
+    mainWindow.setWindowTitle(programmNameString +  " - " + str);
+}
+
+void UI::createNewFile() {
+    fileNameWindow(" - Новый");
+    fControl->createNewFile();
+}
+
 void UI::createActions() {
     menuBar = new QMenuBar();
 
     fileMenu = new QMenu("Файл");
     fileMenu->addAction("Новый", fControl, SLOT(createNewFile()), Qt::CTRL + Qt::Key_N);
     fileMenu->addAction("Открыть...", fControl, SLOT(openDialogEnable()), Qt::CTRL + Qt::Key_O);
-    //fileMenu->addAction("Сохранить");
+    fileMenu->addAction("Сохранить", this, SLOT(saveFile()), Qt::CTRL + Qt::Key_S);
     fileMenu->addAction("Сохранить как...", fControl, SLOT(saveDialogEnable()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
     fileMenu->addAction("Выход", app, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
 

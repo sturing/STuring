@@ -3,6 +3,10 @@
 
 #include <QFileDialog>
 #include <QTextStream>
+#include <string>
+#include <QDebug>
+
+using namespace std;
 
 class FileController : public QObject
 {
@@ -18,8 +22,11 @@ public:
 
 signals:
     void opennedFile(QString src, QString line);
-    void savedFile();
+    //void savedFile();
+    void saveFileSign();
+    void sendPath(QString);
 public slots:
+    QString getPath(QString p);
     void clear();
     void openDialogEnable();
     void saveDialogEnable();
