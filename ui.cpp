@@ -152,6 +152,7 @@ void UI::createActions() {
     menuBar = new QMenuBar();
 
     fileMenu = new QMenu("Файл");
+    fileMenu->addAction("Новый", fControl, SLOT(createNewFile()), Qt::CTRL + Qt::Key_N);
     fileMenu->addAction("Открыть...", fControl, SLOT(openDialogEnable()), Qt::CTRL + Qt::Key_O);
     //fileMenu->addAction("Сохранить");
     fileMenu->addAction("Сохранить как...", fControl, SLOT(saveDialogEnable()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);

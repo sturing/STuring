@@ -20,8 +20,10 @@ signals:
     void opennedFile(QString src, QString line);
     void savedFile();
 public slots:
+    void clear();
     void openDialogEnable();
     void saveDialogEnable();
+    void saveFile(QString src, QString line);
     void createNewFile();
     //QString getLine();
     //QString getSrc();

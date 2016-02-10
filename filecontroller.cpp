@@ -5,7 +5,15 @@ FileController::FileController(QObject *parent) : QObject(parent)
     fileOpenned = 0;
 }
 
+void FileController::clear() {
+    src.clear();
+    lines.clear();
+    line.clear();
+    path.clear();
+}
+
 void FileController::openDialogEnable() {
+    clear();
     path = QFileDialog::getOpenFileName(0, "Открыть файл...", "", "*.stur");
 
     file = new QFile(path);
@@ -33,6 +41,17 @@ void FileController::openDialogEnable() {
     emit opennedFile(src, line);
 }
 
+void FileController::saveFile(QString src, QString line) {
+    if(path.isEmpty()) {saveDialogEnable();}
+    else {
+        QFile file(path);
+        file.open(QIODevice::ReadWrite);
+        //file.write(QString::fromline);
+        //file.write('\n');
+        //file.write(src);
+    }
+}
+
 void FileController::saveDialogEnable() {
     lines.clear();
 
@@ -40,25 +59,11 @@ void FileController::saveDialogEnable() {
 
     file = new QFile(path);
 
-    /*if(file->open(QIODevice::ReadWrite)) {
-        QTextStream tStream(file);
-        QString fileData = tStream.readAll();
-        QStringList = fileData.split('\n');
-
-        for(int i = 0; i < fileData.size(); ++i) {
-            lines.push_back(fileData.at(i));
-        }
-
-        if(lines.size() >= 1) {
-            line = lines[0];
-            for(int i = 1; i < line.size(); ++i) {
-                src.push_back(lines[i]);
-                src.push_back('\n');
-            }
-        }
-    }*/
+    file->open(QIODevice::ReadWrite);
 }
 
 void FileController::createNewFile() {
+    clear();
 
+    emit opennedFile(src, line);
 }
