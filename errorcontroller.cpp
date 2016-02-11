@@ -7,8 +7,10 @@ ErrorController::ErrorController(QString src_, QString line_) : src(src_), line(
     for(int i = 0; i < commandList.size(); ++i) {
         cmd.push_back(commandList.at(i));
         cmd[i] = uncomment(cmd[i]);
-    }
 
+        if(cmd[i].size() == 0) {mask.push_back(0);}
+        else {mask.push_back(1);}
+    }
 }
 
 ErrorController::ErrorController() : line(""), errorsHave(0) {
@@ -47,7 +49,7 @@ bool ErrorController::getErrorTest() {
     return errorsHave;
 }
 
-QString ErrorController::errorTest0() { //не без этого
+QString ErrorController::errorTest0() {
     QString res;
 
     for(int i = 0; i < cmd.size(); ++i) {
@@ -145,6 +147,8 @@ QString ErrorController::errorTest2() { //Синтаксис (2) - лишние 
     QString res;
 
     for(int i = 0; i < cmd.size(); ++i) {
+        if(mask[i] == 0) {continue;}
+
         if(getExtraParametres(cmd[i]) > 0) {
             res += "> Лишние параметры (";
             res += QString::number(getExtraParametres(cmd[i]));
@@ -169,6 +173,7 @@ QString ErrorController::errorTest3() { //Синтаксис (3) - нехват�
     QString res;
 
     for(int i = 0; i < cmd.size(); ++i) {
+        if(mask[i] == 0) {continue;}
         if(getState(cmd[i]).size() < 1) {
             res += "> Параметр (1) нулевой длины в строке ";
             res += QString::number(i+1);

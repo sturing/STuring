@@ -48,6 +48,8 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     speedSlider->setMaximumWidth(250);
     speedSlider->setMinimumWidth(60);
 
+    //fileSaved = 1;
+
     fontLine.setPointSize(14);
     fontLine.setFamily("Monospace");
     fontSrc.setFamily("Monospace");
@@ -126,6 +128,7 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     mainWindow.setMinimumSize(700, 500);
     mainWindow.show();
 
+    //fileSaved = true;
 
 
 
@@ -134,7 +137,10 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     QObject::connect(fControl, SIGNAL(opennedFile(QString,QString)), this, SLOT(openFile(QString, QString)));
     QObject::connect(fControl, SIGNAL(saveFileSign()),this, SLOT(saveFile()));
     QObject::connect(fControl, SIGNAL(sendPath(QString)), this, SLOT(fileNameWindow(QString)));
+    QObject::connect(tmLine, SIGNAL(textChanged(QString)), this, SLOT(addUnSaved()));
+    QObject::connect(tmSrc, SIGNAL(textChanged()), this, SLOT(addUnSaved()));
     fControl->createNewFile();
+    fileSaved = 1;
 }
 
 void UI::openFile(QString src, QString line) {
@@ -142,6 +148,7 @@ void UI::openFile(QString src, QString line) {
 
     tmSrc->document()->setPlainText(src);
     tmLine->setText(line);
+    addSaved();
 }
 
 void UI::createTableHistory() {
@@ -158,15 +165,28 @@ void UI::saveFile() {
     QString line = tmLine->text();
     qDebug() << src;
     fControl->saveFile(src, line);
+    addSaved();
 }
 
 void UI::fileNameWindow(QString str) {
     mainWindow.setWindowTitle(programmNameString +  " - " + str);
+    allWindowTitle = mainWindow.windowTitle();
+}
+
+void UI::addUnSaved() {
+    mainWindow.setWindowTitle(allWindowTitle + "*");
+    fileSaved = 0;
+}
+
+void UI::addSaved() {
+    mainWindow.setWindowTitle(allWindowTitle);
+    fileSaved = 1;
 }
 
 void UI::createNewFile() {
     fileNameWindow(" - Новый");
     fControl->createNewFile();
+    addSaved();
 }
 
 void UI::createActions() {

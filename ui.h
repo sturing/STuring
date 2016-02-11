@@ -67,7 +67,10 @@ public:
     QVBoxLayout* rightLayout;
     QVBoxLayout* mainVerticalSeparator;
     History* history;
+    QString allWindowTitle;
     int dialogW = 300, dialogH = 200;
+    bool fileSaved;
+    //bool fileSaved;
 public:
     explicit UI(QApplication *app_, QObject *parent = 0);
 signals:
@@ -82,6 +85,8 @@ public slots:
     void saveFile();
     void fileNameWindow(QString str);
     void createNewFile();
+    void addUnSaved();
+    void addSaved();
 };
 
 #endif // UI_H

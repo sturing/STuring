@@ -15,6 +15,9 @@ private:
     QVector<QString>cmd;
     QString line;
     bool errorsHave;
+
+    QVector<int>mask;
+
     QString errorTest0();
     QString errorTest1();
     QString errorTest2();

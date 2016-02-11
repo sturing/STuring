@@ -22,7 +22,6 @@ public:
 
 signals:
     void opennedFile(QString src, QString line);
-    //void savedFile();
     void saveFileSign();
     void sendPath(QString);
 public slots:
@@ -32,8 +31,6 @@ public slots:
     void saveDialogEnable();
     void saveFile(QString src, QString line);
     void createNewFile();
-    //QString getLine();
-    //QString getSrc();
 };
 
 #endif // FILECONTROLLER_H

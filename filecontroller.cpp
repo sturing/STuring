@@ -43,7 +43,10 @@ void FileController::openDialogEnable() {
 }
 
 void FileController::saveFile(QString src, QString line) {
-    if(path.isEmpty()) {saveDialogEnable();}
+    if(path.isEmpty()) {
+        saveDialogEnable();
+
+    }
     else {
 
         QFile file(path);
@@ -83,7 +86,17 @@ void FileController::saveDialogEnable() {
     lines.clear();
     //saveDialog.setDefaultSuffix(".stur");
     //QString filter = ".stur";
-    path = QFileDialog::getSaveFileName(0, tr("Сохранить файл как..."), "", tr("STuring files (*.stur)"));
+    QFileDialog sDialog;
+    //path = QFileDialog::getSaveFileName(0, tr("Сохранить файл как..."), "", tr("STuring files (*.stur)"));
+
+    QString tmpPath = sDialog.getSaveFileName(0, tr("Сохранить файл как..."), "", tr("STuring files (*.stur)"));
+    //if(!sDialog.exec()) {
+        //path = sDialog.selectedFiles().at(0);
+        //path = sDialog.getSaveFileName(0, tr("Сохранить файл как..."), "", tr("STuring files (*.stur)"));
+        path = tmpPath;
+    //}
+    //path = sDialog.getSaveFileName(0, tr("Сохранить файл как..."), "", tr("STuring files (*.stur)"));
+
     //path = getPath(path);
     emit saveFileSign();
     file = new QFile(path);
