@@ -31,6 +31,8 @@ public slots:
     void saveDialogEnable();
     void saveFile(QString src, QString line);
     void createNewFile();
+    QString getPathString();
+    void openFromPath(QString);
 };
 
 #endif // FILECONTROLLER_H

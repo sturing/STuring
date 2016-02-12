@@ -12,34 +12,73 @@ void FileController::clear() {
     path.clear();
 }
 
+QString FileController::getPathString() {
+    return path;
+}
+
 void FileController::openDialogEnable() {
-    clear();
-    path = QFileDialog::getOpenFileName(0, "Открыть файл...", "", "*.stur");
-    qDebug() << path;
-    file = new QFile(path);
+    QString pathTmp = QFileDialog::getOpenFileName(0, "Открыть файл...", "", "*.stur");
 
-    if(file->open(QIODevice::ReadWrite)) {
-        QTextStream tStream(file);
-        QString fileData = tStream.readAll();
-        QStringList list = fileData.split('\n');
+    if(!pathTmp.isEmpty()) {
+        clear();
+        path = pathTmp;
+        file = new QFile(path);
 
-        for(int i = 0; i < list.size(); ++i) {
-            lines.push_back(list.at(i));
-        }
+        if(file->open(QIODevice::ReadWrite)) {
+            QTextStream tStream(file);
+            QString fileData = tStream.readAll();
+            QStringList list = fileData.split('\n');
 
-        if(lines.size() >= 1) {
-            line = lines[0];
-            for(int i = 1; i < lines.size(); ++i) {
-                src.push_back(lines[i]);
-                src.push_back('\n');
+            for(int i = 0; i < list.size(); ++i) {
+                lines.push_back(list.at(i));
             }
+
+            if(lines.size() >= 1) {
+                line = lines[0];
+                for(int i = 1; i < lines.size(); ++i) {
+                    src.push_back(lines[i]);
+                    src.push_back('\n');
+                }
+            }
+
+            fileOpenned = 1;
         }
 
-        fileOpenned = 1;
+        emit opennedFile(src, line);
+        emit sendPath(path);
     }
+}
 
-    emit opennedFile(src, line);
-    emit sendPath(path);
+void FileController::openFromPath(QString p) {
+
+    if(!p.isEmpty()) {
+        clear();
+        path = p;
+        file = new QFile(path);
+
+        if(file->open(QIODevice::ReadWrite)) {
+            QTextStream tStream(file);
+            QString fileData = tStream.readAll();
+            QStringList list = fileData.split('\n');
+
+            for(int i = 0; i < list.size(); ++i) {
+                lines.push_back(list.at(i));
+            }
+
+            if(lines.size() >= 1) {
+                line = lines[0];
+                for(int i = 1; i < lines.size(); ++i) {
+                    src.push_back(lines[i]);
+                    src.push_back('\n');
+                }
+            }
+
+            fileOpenned = 1;
+        }
+
+        emit opennedFile(src, line);
+        emit sendPath(path);
+    }
 }
 
 void FileController::saveFile(QString src, QString line) {
@@ -83,32 +122,28 @@ QString FileController::getPath(QString p) {
 }
 
 void FileController::saveDialogEnable() {
-    lines.clear();
     //saveDialog.setDefaultSuffix(".stur");
     //QString filter = ".stur";
     QFileDialog sDialog;
     //path = QFileDialog::getSaveFileName(0, tr("Сохранить файл как..."), "", tr("STuring files (*.stur)"));
 
-    QString tmpPath = sDialog.getSaveFileName(0, tr("Сохранить файл как..."), "", tr("STuring files (*.stur)"));
-    //if(!sDialog.exec()) {
-        //path = sDialog.selectedFiles().at(0);
-        //path = sDialog.getSaveFileName(0, tr("Сохранить файл как..."), "", tr("STuring files (*.stur)"));
-        path = tmpPath;
-    //}
-    //path = sDialog.getSaveFileName(0, tr("Сохранить файл как..."), "", tr("STuring files (*.stur)"));
+    QString pathTmp = sDialog.getSaveFileName(0, tr("Сохранить файл как..."), "", tr("STuring files (*.stur)"));
 
-    //path = getPath(path);
-    emit saveFileSign();
-    file = new QFile(path);
+    if(!pathTmp.isEmpty()) {
+        lines.clear();
+        path = pathTmp;
+        emit saveFileSign();
+        file = new QFile(path);
 
-    QFileInfo info(*file);
-    if(info.suffix().isEmpty()) {
-        info.suffix() = ".stur";
+        QFileInfo info(*file);
+        if(info.suffix().isEmpty()) {
+            info.suffix() = ".stur";
+        }
+
+        file->open(QIODevice::ReadWrite);
+
+        emit sendPath(path);
     }
-
-    file->open(QIODevice::ReadWrite);
-
-    emit sendPath(path);
 }
 
 void FileController::createNewFile() {

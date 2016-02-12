@@ -20,12 +20,16 @@ private:
     UI* ui;
     ErrorController* errControl;
     bool isTableParametres;
+    bool maxSpdEnabled;
+
+    QSettings* settings;
 public:
     explicit Controller(QApplication *app_, QObject *parent = 0);
 
 signals:
 
 public slots:
+    void loadRecentFile(QString path);
     void tmRun();
     void setRunable(bool);
     void changeSpeed(int n);
@@ -35,6 +39,9 @@ public slots:
     void addHistory(QString state, QString line, int pointer, QString command);
     void tmLineChanged();
     void errorTest();
+    void setHistoryEnabled(bool);
+    void maxSpdValueChange(bool b);
+    void saveSettings();
 };
 
 #endif // CONTROLLER_H

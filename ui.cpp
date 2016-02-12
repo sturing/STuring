@@ -2,7 +2,7 @@
 
 UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
 {
-    programmNameString = "STuring v3.0 Beta 1";
+    programmNameString = "STuring v3.0 Beta 2";
     app = app_;
     fControl = new FileController();
     tmLine = new QLineEdit();
@@ -18,6 +18,7 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
 
     maxSpeedLbl = new QLabel("Максимальная скорость:");
     maxSpeedCkb = new QCheckBox();
+
 
     upLayout = new QHBoxLayout();
     menuLayout = new QHBoxLayout();
@@ -38,6 +39,9 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     history = new History();
     rightLayout = new QVBoxLayout();
     rightLayout->setMargin(3);
+    maxSpdLayout->addWidget(maxSpeedLbl);
+    maxSpdLayout->addWidget(maxSpeedCkb);
+    maxSpdLayout->setAlignment(Qt::AlignLeft);
 
     downLayout->addWidget(infoLbl);
     downLayout->addLayout(maxSpdLayout, Qt::AlignRight);
@@ -77,6 +81,7 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     historyCkbLayout->setAlignment(Qt::AlignLeft);
     rightLayout->addLayout(historyCkbLayout);
     errorLbl = new QLabel("Консоль ошибок:");
+    errorLbl->setAlignment(Qt::AlignBottom);
     rightLayout->addWidget(history);
     rightLayout->addWidget(errorLbl);
     rightLayout->addWidget(errorConsole);

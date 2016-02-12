@@ -7,6 +7,12 @@ Controller::Controller(QApplication *app_, QObject *parent) : QObject(parent) {
     changeSpeed(ui->speedSlider->value());
     isTableParametres = false;
     errControl = new ErrorController();
+    maxSpdEnabled = 0;
+
+    settings = new QSettings("settings.conf", QSettings::IniFormat);
+
+    QString recentPath = settings->value("pathFile/recentFile", "").toString();
+
 
     QObject::connect(ui->tmRunBtn, SIGNAL(clicked()), this, SLOT(tmRun()));
     QObject::connect(turing, SIGNAL(Runable(bool)), this, SLOT(setRunable(bool)));
@@ -24,6 +30,35 @@ Controller::Controller(QApplication *app_, QObject *parent) : QObject(parent) {
     QObject::connect(ui->tmLine, SIGNAL(textChanged(QString)), this, SLOT(tmLineChanged()));
     QObject::connect(turing, SIGNAL(testErrors()), this, SLOT(errorTest()));
     //QObject::connect(errControl, SIGNAL(errorHave(QString)), this, SLOT(printErrors(QString)));
+    QObject::connect(ui->maxSpeedCkb, SIGNAL(toggled(bool)), this, SLOT(setHistoryEnabled(bool)));
+    QObject::connect(ui->maxSpeedCkb, SIGNAL(toggled(bool)), this, SLOT(maxSpdValueChange(bool)));
+    QObject::connect(app, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
+
+    loadRecentFile(recentPath);
+}
+
+void Controller::loadRecentFile(QString path) {
+    ui->fControl->openFromPath(path);
+}
+
+void Controller::saveSettings() {
+    settings->setValue("pathFile/recentFile", ui->fControl->getPathString());
+    settings->sync();
+}
+
+void Controller::maxSpdValueChange(bool b) {
+    maxSpdEnabled = b;
+
+    if(b) {
+        ui->history->clearAllHistory();
+    }
+}
+
+void Controller::setHistoryEnabled(bool b) {
+    ui->history->setHidden(b);
+    ui->historyCkb->setHidden(b);
+    ui->historyLbl->setHidden(b);
+    ui->clearHistoryBtn->setHidden(b);
 }
 
 void Controller::errorTest() {
@@ -46,14 +81,15 @@ void Controller::updateFromTable(int r, int c) {
 }
 
 void Controller::addHistory(QString state, QString line, int pointer, QString command) {
-
-    if(command.isEmpty()) {
-            if(ui->history->getNumberHistoryItem() == 0) {
-                ui->history->addItem(state, line, pointer, command);
-            }
-    }
-    else {
-        ui->history->addItem(state, line, pointer, command);
+    if(!maxSpdEnabled) {
+        if(command.isEmpty()) {
+                if(ui->history->getNumberHistoryItem() == 0) {
+                    ui->history->addItem(state, line, pointer, command);
+                }
+        }
+        else {
+            ui->history->addItem(state, line, pointer, command);
+        }
     }
 }
 
@@ -95,6 +131,7 @@ void Controller::setRunable(bool r) {
 
     ui->tmSrc->setReadOnly(r);
     ui->tmLine->setReadOnly(r);
+    ui->maxSpeedCkb->setDisabled(r);
 }
 
 void Controller::changeSpeed(int n) {
