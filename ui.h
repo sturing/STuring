@@ -70,10 +70,13 @@ public:
     QString allWindowTitle;
     int dialogW = 300, dialogH = 200;
     bool fileSaved;
-    //bool fileSaved;
+
+    //QMessageBox* saveMsg;
+
 public:
     explicit UI(QApplication *app_, QObject *parent = 0);
 signals:
+    void saveSettings();
 
 public slots:
     void setSrcSize();

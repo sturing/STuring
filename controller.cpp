@@ -33,6 +33,8 @@ Controller::Controller(QApplication *app_, QObject *parent) : QObject(parent) {
     QObject::connect(ui->maxSpeedCkb, SIGNAL(toggled(bool)), this, SLOT(setHistoryEnabled(bool)));
     QObject::connect(ui->maxSpeedCkb, SIGNAL(toggled(bool)), this, SLOT(maxSpdValueChange(bool)));
     QObject::connect(app, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
+    QObject::connect(app, SIGNAL(aboutToQuit()), ui, SLOT(saveFile()));
+    QObject::connect(ui, SIGNAL(saveSettings()), this, SLOT(saveSettings()));
 
     loadRecentFile(recentPath);
 }

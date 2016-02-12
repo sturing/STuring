@@ -135,6 +135,20 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
 
     //fileSaved = true;
 
+    /*saveMsg = new QMessageBox("Несохраненный документ...",
+                            "<b>A</b> <i>Simple</i>   <u>Message</u>",
+                            QMessageBox::Information,
+                            QMessageBox::Yes,
+                            QMessageBox::No,
+                            QMessageBox::Cancel | QMessageBox::Escape);*/
+        /*
+        int n = saveMsg->exec();
+        delete saveMsg;
+        if (n == QMessageBox::Yes)
+        {
+          //Нажата кнопка Yes
+        }
+        */
 
 
     QObject::connect(tmSrc, SIGNAL(textChanged()), this, SLOT(setSrcSize()));
@@ -171,6 +185,8 @@ void UI::saveFile() {
     qDebug() << src;
     fControl->saveFile(src, line);
     addSaved();
+
+   emit saveSettings();
 }
 
 void UI::fileNameWindow(QString str) {

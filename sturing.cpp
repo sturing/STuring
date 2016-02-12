@@ -50,7 +50,7 @@ void STuring::maxSpeedEnable(bool b) {
 void STuring::go() {
 
     emit Runable(true);
-    //emit commandExecuted(nowState, line, pointer, "");
+
     for(int i = 0; i < stackSrc.size() && !stopped && isRunning; ++i) {
         if(testOfExecute(stackSrc[i])) {
             if(!maxSpeed) {
