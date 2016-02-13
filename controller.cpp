@@ -34,13 +34,15 @@ Controller::Controller(QApplication *app_, QObject *parent) : QObject(parent) {
     QObject::connect(ui, SIGNAL(saveSettings()), this, SLOT(saveSettings()));
     QObject::connect(ui->tmLine, SIGNAL(textChanged(QString)), this, SLOT(errorTest()));
     QObject::connect(ui->tmSrc, SIGNAL(textChanged()), this, SLOT(errorTest()));
-
     loadRecentFile(recentPath);
 }
 
 void Controller::kill() {
     saveSettings();
-    ui->saveFile();
+
+    if(!ui->fControl->getPathString().isEmpty()) {
+        ui->saveFile();
+    }
 
     delete this;
 }

@@ -54,7 +54,7 @@ public:
 
     QApplication* app;
 
-    QWidget aboutDialog;
+    QWidget* aboutDialog;
     QPixmap logo;
     QLabel* logoLbl;
     QLabel* programName;

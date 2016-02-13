@@ -2,7 +2,7 @@
 
 UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
 {
-    programmNameString = "STuring v3.0 RC1";
+    programmNameString = "STuring v3.0";
     app = app_;
     fControl = new FileController();
     tmLine = new QLineEdit();
@@ -119,10 +119,12 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     dialogMainLayout->insertWidget(-1, logoLbl, 0, Qt::AlignHCenter);
     dialogMainLayout->insertWidget(-1, aboutLbl, 0, Qt::AlignHCenter);
 
-    aboutDialog.setLayout(dialogMainLayout);
-    aboutDialog.setFixedSize(dialogW, dialogH);
-    aboutDialog.setWindowTitle("STuring - О Программе");
-    aboutDialog.setWindowIcon(icon);
+    aboutDialog = new QWidget();
+
+    aboutDialog->setLayout(dialogMainLayout);
+    aboutDialog->setFixedSize(dialogW, dialogH);
+    aboutDialog->setWindowTitle("STuring - О Программе");
+    aboutDialog->setWindowIcon(icon);
 
     mainWindow.setLayout(mainVerticalSeparator);
     mainWindow.setWindowTitle(programmNameString);
@@ -154,8 +156,8 @@ void UI::createTableHistory() {
 }
 
 void UI::dialogShow() {
-    aboutDialog.setGeometry((2*mainWindow.x() + mainWindow.width())/ 2 - dialogW/2, (2*mainWindow.y() + mainWindow.height())/ 2 - dialogH/2, dialogW, dialogH);
-    aboutDialog.show();
+    aboutDialog->setGeometry((2*mainWindow.x() + mainWindow.width())/ 2 - dialogW/2, (2*mainWindow.y() + mainWindow.height())/ 2 - dialogH/2, dialogW, dialogH);
+    aboutDialog->show();
 }
 
 void UI::saveFile() {
@@ -196,7 +198,6 @@ void UI::createActions() {
     fileMenu->addAction("Открыть...", fControl, SLOT(openDialogEnable()), Qt::CTRL + Qt::Key_O);
     fileMenu->addAction("Сохранить", this, SLOT(saveFile()), Qt::CTRL + Qt::Key_S);
     fileMenu->addAction("Сохранить как...", fControl, SLOT(saveDialogEnable()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
-    fileMenu->addAction("Выход", app, SLOT(quit()), Qt::CTRL + Qt::Key_Q);
 
     about = new QMenu("Справка");
     about->addAction("О Программе...", this, SLOT(dialogShow()), Qt::Key_F1);
@@ -269,5 +270,5 @@ UI::~UI() {
     delete appLayout;
     delete mainVerticalSeparator;
     delete history;
-
+    delete aboutDialog;
 }
