@@ -70,9 +70,6 @@ public:
     QString allWindowTitle;
     int dialogW = 300, dialogH = 200;
     bool fileSaved;
-
-    //QMessageBox* saveMsg;
-
 public:
     explicit UI(QApplication *app_, QObject *parent = 0);
     ~UI();

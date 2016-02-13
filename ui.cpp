@@ -19,7 +19,6 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     maxSpeedLbl = new QLabel("Максимальная скорость:");
     maxSpeedCkb = new QCheckBox();
 
-
     upLayout = new QHBoxLayout();
     menuLayout = new QHBoxLayout();
     createActions();
@@ -130,24 +129,6 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     mainWindow.setWindowIcon(icon);
     mainWindow.setMinimumSize(700, 500);
     mainWindow.show();
-
-    //fileSaved = true;
-
-    /*saveMsg = new QMessageBox("Несохраненный документ...",
-                            "<b>A</b> <i>Simple</i>   <u>Message</u>",
-                            QMessageBox::Information,
-                            QMessageBox::Yes,
-                            QMessageBox::No,
-                            QMessageBox::Cancel | QMessageBox::Escape);*/
-        /*
-        int n = saveMsg->exec();
-        delete saveMsg;
-        if (n == QMessageBox::Yes)
-        {
-          //Нажата кнопка Yes
-        }
-        */
-
 
     QObject::connect(tmSrc, SIGNAL(textChanged()), this, SLOT(setSrcSize()));
     QObject::connect(clearHistoryBtn, SIGNAL(clicked()), history, SLOT(clearAllHistory()));
@@ -260,16 +241,16 @@ UI::~UI() {
     delete tmStopBtn;
     delete clearHistoryBtn;
     delete tmSrc;
+    delete maxSpeedLbl;
+    delete maxSpeedCkb;
+    delete maxSpdLayout;
     delete upLayout;
     delete turingLayout;
     delete downLayout;
     delete menuLayout;
-    delete maxSpdLayout;
     delete infoLbl;
     delete speedLbl;
     delete speedSlider;
-    delete maxSpeedLbl;
-    delete maxSpeedCkb;
     delete historyCkbLayout;
     delete historyLbl;
     delete historyCkb;
@@ -284,10 +265,9 @@ UI::~UI() {
     delete dialogMainLayout;
     delete errorConsole;
     delete errorLbl;
-    delete appLayout;
     delete rightLayout;
+    delete appLayout;
     delete mainVerticalSeparator;
     delete history;
-    int dialogW = 300, dialogH = 200;
-    bool fileSaved;
+
 }
