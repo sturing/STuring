@@ -29,10 +29,10 @@ Controller::Controller(QApplication *app_, QObject *parent) : QObject(parent) {
     QObject::connect(turing, SIGNAL(testErrors()), this, SLOT(errorTest()));
     QObject::connect(ui->maxSpeedCkb, SIGNAL(toggled(bool)), this, SLOT(setHistoryEnabled(bool)));
     QObject::connect(ui->maxSpeedCkb, SIGNAL(toggled(bool)), this, SLOT(maxSpdValueChange(bool)));
-    //QObject::connect(app, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
-    //QObject::connect(app, SIGNAL(aboutToQuit()), ui, SLOT(saveFile()));
     QObject::connect(app, SIGNAL(aboutToQuit()), this, SLOT(kill()));
     QObject::connect(ui, SIGNAL(saveSettings()), this, SLOT(saveSettings()));
+    QObject::connect(ui->tmLine, SIGNAL(textChanged(QString)), this, SLOT(errorTest()));
+    QObject::connect(ui->tmSrc, SIGNAL(textChanged()), this, SLOT(errorTest()));
 
     loadRecentFile(recentPath);
 }
@@ -147,7 +147,6 @@ void Controller::changeSpeed(int n) {
 }
 
 Controller::~Controller() {
-    qDebug() << "Deleting))";
     delete turing;
     delete ui;
     delete errControl;

@@ -73,7 +73,7 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     appLayout->addLayout(turingLayout);
     historyCkbLayout = new QHBoxLayout();
     historyLbl = new QLabel("Данные из таблицы: ");
-    historyCkb = new QCheckBox(false);
+    historyCkb = new QCheckBox();
     historyCkbLayout->addWidget(historyLbl);
     historyCkbLayout->addWidget(historyCkb);
     historyCkbLayout->setAlignment(Qt::AlignLeft);
@@ -180,7 +180,6 @@ void UI::dialogShow() {
 void UI::saveFile() {
     QString src =tmSrc->document()->toPlainText();
     QString line = tmLine->text();
-    qDebug() << src;
     fControl->saveFile(src, line);
     addSaved();
 

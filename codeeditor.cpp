@@ -97,9 +97,6 @@ void CodeEditor::highlightCurrentLine()
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
         selection.cursor = textCursor();
         selection.cursor.clearSelection();
-        //qDebug() << selection.cursor.position();
-        //selection.cursor.setPosition(1);
-        //selection.cursor.setPosition(10, QTextCursor::KeepAnchor);
         extraSelections.append(selection);
     }
 
@@ -124,12 +121,8 @@ void CodeEditor::highlightLine(int line) {
 
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
-        //selection.cursor = cur;
         selection.cursor.setPosition(line);
-        qDebug() << selection.cursor.position();
         selection.cursor.clearSelection();
-        //selection.cursor.setPosition(1);
-        //selection.cursor.setPosition(10, QTextCursor::KeepAnchor);
         extraSelections.append(selection);
     }
 
