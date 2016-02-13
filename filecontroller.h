@@ -19,6 +19,7 @@ class FileController : public QObject
     QVector<QString>lines;
 public:
     explicit FileController(QObject *parent = 0);
+    ~FileController();
 
 signals:
     void opennedFile(QString src, QString line);

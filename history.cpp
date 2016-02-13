@@ -47,9 +47,7 @@ bool History::isFirstHave() {
 }
 
 void History::addItem(QString state, QString line, int pointer, QString command) {
-    //if(!(command.isEmpty() && !isFirstHave)) {
-        historyItem.push_back(HistoryItem(state, line, pointer, command));
-   // }
+    historyItem.push_back(HistoryItem(state, line, pointer, command));
     updateTable();
 }
 

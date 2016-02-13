@@ -25,10 +25,12 @@ private:
     QSettings* settings;
 public:
     explicit Controller(QApplication *app_, QObject *parent = 0);
+    ~Controller();
 
 signals:
 
 public slots:
+    void kill();
     void loadRecentFile(QString path);
     void tmRun();
     void setRunable(bool);

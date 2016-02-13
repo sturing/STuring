@@ -75,6 +75,7 @@ public:
 
 public:
     explicit UI(QApplication *app_, QObject *parent = 0);
+    ~UI();
 signals:
     void saveSettings();
 

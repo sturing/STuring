@@ -52,8 +52,6 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     speedSlider->setMaximumWidth(250);
     speedSlider->setMinimumWidth(60);
 
-    //fileSaved = 1;
-
     fontLine.setPointSize(14);
     fontLine.setFamily("Monospace");
     fontSrc.setFamily("Monospace");
@@ -254,4 +252,43 @@ void UI::setPointer(int n) {
 
 void UI::setLine(QString s) {
     tmLine->setText(s);
+}
+
+UI::~UI() {
+    delete fControl;
+    delete tmLine;
+    delete tmRunBtn;
+    delete tmStopBtn;
+    delete clearHistoryBtn;
+    delete tmSrc;
+    delete upLayout;
+    delete turingLayout;
+    delete downLayout;
+    delete menuLayout;
+    delete maxSpdLayout;
+    delete infoLbl;
+    delete speedLbl;
+    delete speedSlider;
+    delete maxSpeedLbl;
+    delete maxSpeedCkb;
+    delete historyCkbLayout;
+    delete historyLbl;
+    delete historyCkb;
+    delete saveAction;
+    delete openAction;
+    delete menuBar;
+    delete fileMenu;
+    delete about;
+    delete logoLbl;
+    delete programName;
+    delete aboutLbl;
+    delete dialogMainLayout;
+    delete errorConsole;
+    delete errorLbl;
+    delete appLayout;
+    delete rightLayout;
+    delete mainVerticalSeparator;
+    delete history;
+    int dialogW = 300, dialogH = 200;
+    bool fileSaved;
 }

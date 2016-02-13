@@ -24,19 +24,24 @@ Controller::Controller(QApplication *app_, QObject *parent) : QObject(parent) {
     QObject::connect(ui->historyCkb, SIGNAL(toggled(bool)), this, SLOT(changeTableParameter(bool)));
     QObject::connect(turing, SIGNAL(commandExecuted(QString,QString,int, QString)), this, SLOT(addHistory(QString, QString, int, QString)));
     QObject::connect(ui->history, SIGNAL(cellClicked(int,int)), this, SLOT(updateFromTable(int, int)));
-    //QObject::connect(ui->tmSrc, SIGNAL(textChanged()), history, SLOT(clearAllHistory()));
-    //QObject::connect(ui->tmLine, SIGNAL(textChanged(QString)), history, SLOT(clearAllHistory()));
     QObject::connect(ui->tmSrc, SIGNAL(textChanged()), ui->history, SLOT(clearAllHistory()));
     QObject::connect(ui->tmLine, SIGNAL(textChanged(QString)), this, SLOT(tmLineChanged()));
     QObject::connect(turing, SIGNAL(testErrors()), this, SLOT(errorTest()));
-    //QObject::connect(errControl, SIGNAL(errorHave(QString)), this, SLOT(printErrors(QString)));
     QObject::connect(ui->maxSpeedCkb, SIGNAL(toggled(bool)), this, SLOT(setHistoryEnabled(bool)));
     QObject::connect(ui->maxSpeedCkb, SIGNAL(toggled(bool)), this, SLOT(maxSpdValueChange(bool)));
-    QObject::connect(app, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
-    QObject::connect(app, SIGNAL(aboutToQuit()), ui, SLOT(saveFile()));
+    //QObject::connect(app, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
+    //QObject::connect(app, SIGNAL(aboutToQuit()), ui, SLOT(saveFile()));
+    QObject::connect(app, SIGNAL(aboutToQuit()), this, SLOT(kill()));
     QObject::connect(ui, SIGNAL(saveSettings()), this, SLOT(saveSettings()));
 
     loadRecentFile(recentPath);
+}
+
+void Controller::kill() {
+    saveSettings();
+    ui->saveFile();
+
+    delete this;
 }
 
 void Controller::loadRecentFile(QString path) {
@@ -72,7 +77,7 @@ void Controller::errorTest() {
 }
 
 void Controller::tmLineChanged() {
-    if(!turing->isRunning && ui->tmLine->hasFocus()/*!ui->history->isActiveWindow()*/) {
+    if(!turing->isRunning && ui->tmLine->hasFocus()) {
         ui->history->clearAllHistory();
     }
 }
@@ -139,4 +144,12 @@ void Controller::setRunable(bool r) {
 void Controller::changeSpeed(int n) {
     int value = 110 - n;
     turing->speed = value;
+}
+
+Controller::~Controller() {
+    qDebug() << "Deleting))";
+    delete turing;
+    delete ui;
+    delete errControl;
+    delete settings;
 }
