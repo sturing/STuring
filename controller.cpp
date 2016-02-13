@@ -21,6 +21,7 @@ Controller::Controller(QApplication *app_, QObject *parent) : QObject(parent) {
     QObject::connect(turing, SIGNAL(updateLine(QString)), ui, SLOT(setLine(QString)));
     QObject::connect(turing, SIGNAL(updatePointer(int)), ui, SLOT(setPointer(int)));
     QObject::connect(ui->maxSpeedCkb, SIGNAL(toggled(bool)), turing, SLOT(maxSpeedEnable(bool)));
+    QObject::connect(ui->maxSpeedCkb, SIGNAL(toggled(bool)), this, SLOT(maxSpdWidgetsBlocker(bool)));
     QObject::connect(ui->historyCkb, SIGNAL(toggled(bool)), this, SLOT(changeTableParameter(bool)));
     QObject::connect(turing, SIGNAL(commandExecuted(QString,QString,int, QString)), this, SLOT(addHistory(QString, QString, int, QString)));
     QObject::connect(ui->history, SIGNAL(cellClicked(int,int)), this, SLOT(updateFromTable(int, int)));
@@ -51,6 +52,10 @@ void Controller::loadRecentFile(QString path) {
 void Controller::saveSettings() {
     settings->setValue("pathFile/recentFile", ui->fControl->getPathString());
     settings->sync();
+}
+
+void Controller::maxSpdWidgetsBlocker(bool b) {
+    ui->speedSlider->setDisabled(b);
 }
 
 void Controller::maxSpdValueChange(bool b) {

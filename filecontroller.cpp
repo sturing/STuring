@@ -25,28 +25,33 @@ void FileController::openDialogEnable() {
         file = new QFile(path);
 
         if(file->open(QIODevice::ReadWrite)) {
-            QTextStream tStream(file);
-            QString fileData = tStream.readAll();
-            QStringList list = fileData.split('\n');
-
-            for(int i = 0; i < list.size(); ++i) {
-                lines.push_back(list.at(i));
-            }
-
-            if(lines.size() >= 1) {
-                line = lines[0];
-                for(int i = 1; i < lines.size(); ++i) {
-                    src.push_back(lines[i]);
-                    src.push_back('\n');
-                }
-            }
-
-            fileOpenned = 1;
+            copyDataFromFile();
         }
 
         emit opennedFile(src, line);
         emit sendPath(path);
     }
+}
+
+void FileController::copyDataFromFile() {
+    QTextStream tStream(file);
+    QString fileData = tStream.readAll();
+    QStringList list = fileData.split('\n');
+
+    for(int i = 0; i < list.size(); ++i) {
+        lines.push_back(list.at(i));
+    }
+
+    if(lines.size() >= 1) {
+        line = lines[0];
+        for(int i = 1; i < lines.size(); ++i) {
+            if(i != 1) {src.push_back('\n');}
+
+            src.push_back(lines[i]);
+        }
+    }
+
+    fileOpenned = 1;
 }
 
 void FileController::openFromPath(QString p) {
@@ -57,23 +62,7 @@ void FileController::openFromPath(QString p) {
         file = new QFile(path);
 
         if(file->open(QIODevice::ReadWrite)) {
-            QTextStream tStream(file);
-            QString fileData = tStream.readAll();
-            QStringList list = fileData.split('\n');
-
-            for(int i = 0; i < list.size(); ++i) {
-                lines.push_back(list.at(i));
-            }
-
-            if(lines.size() >= 1) {
-                line = lines[0];
-                for(int i = 1; i < lines.size(); ++i) {
-                    src.push_back(lines[i]);
-                    src.push_back('\n');
-                }
-            }
-
-            fileOpenned = 1;
+            copyDataFromFile();
         }
 
         emit opennedFile(src, line);
@@ -84,7 +73,6 @@ void FileController::openFromPath(QString p) {
 void FileController::saveFile(QString src, QString line) {
     if(path.isEmpty()) {
         saveDialogEnable();
-
     }
     else {
 
@@ -94,7 +82,6 @@ void FileController::saveFile(QString src, QString line) {
         QByteArray lineBytes;
 
         string lineStd = line.toStdString();
-        //srcBytes += "\n";
         for(int i = 0; i < lineStd.size(); ++i) {
             lineBytes.push_back(lineStd[i]);
         }

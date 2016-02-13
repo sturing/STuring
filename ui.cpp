@@ -2,7 +2,7 @@
 
 UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
 {
-    programmNameString = "STuring v3.0 Beta 2";
+    programmNameString = "STuring v3.0 RC1";
     app = app_;
     fControl = new FileController();
     tmLine = new QLineEdit();

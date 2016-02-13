@@ -33,6 +33,7 @@ public slots:
     void saveFile(QString src, QString line);
     void createNewFile();
     QString getPathString();
+    void copyDataFromFile();
     void openFromPath(QString);
 };
 

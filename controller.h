@@ -44,6 +44,7 @@ public slots:
     void setHistoryEnabled(bool);
     void maxSpdValueChange(bool b);
     void saveSettings();
+    void maxSpdWidgetsBlocker(bool b);
 };
 
 #endif // CONTROLLER_H
