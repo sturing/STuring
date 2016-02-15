@@ -75,6 +75,7 @@ private slots:
     void updateLineNumberArea(const QRect &, int);
     void rectSend(const QRect &, int);
     void highlightLine(int);
+    void paintText();
 
 private:
     QWidget *lineNumberArea;

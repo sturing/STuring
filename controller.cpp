@@ -34,6 +34,7 @@ Controller::Controller(QApplication *app_, QObject *parent) : QObject(parent) {
     QObject::connect(ui, SIGNAL(saveSettings()), this, SLOT(saveSettings()));
     QObject::connect(ui->tmLine, SIGNAL(textChanged(QString)), this, SLOT(errorTest()));
     QObject::connect(ui->tmSrc, SIGNAL(textChanged()), this, SLOT(errorTest()));
+    //QObject::connect(ui->tmSrc, SIGNAL(textChanged()), ui->tmSrc, SLOT())
     loadRecentFile(recentPath);
 }
 
