@@ -71,8 +71,8 @@ void Controller::maxSpdValueChange(bool b) {
 void Controller::setHistoryEnabled(bool b) {
     ui->history->setHidden(b);
     ui->historyCkb->setHidden(b);
-    ui->historyLbl->setHidden(b);
     ui->clearHistoryBtn->setHidden(b);
+    //ui->errorConsole->setMaximumHeight(1000);
 }
 
 void Controller::errorTest() {

@@ -2,7 +2,7 @@
 
 UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
 {
-    programmNameString = "STuring v3.0";
+    programmNameString = "STuring v3.0.1";
     app = app_;
     fControl = new FileController();
     tmLine = new QLineEdit();
@@ -15,9 +15,7 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     speedLbl = new QLabel("Скорость:");
     errorConsole = new QTextEdit();
     errorConsole->setReadOnly(true);
-
-    maxSpeedLbl = new QLabel("Максимальная скорость:");
-    maxSpeedCkb = new QCheckBox();
+    maxSpeedCkb = new QCheckBox("Максимальная скорость");
 
     upLayout = new QHBoxLayout();
     menuLayout = new QHBoxLayout();
@@ -38,7 +36,6 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     history = new History();
     rightLayout = new QVBoxLayout();
     rightLayout->setMargin(3);
-    maxSpdLayout->addWidget(maxSpeedLbl);
     maxSpdLayout->addWidget(maxSpeedCkb);
     maxSpdLayout->setAlignment(Qt::AlignLeft);
 
@@ -63,7 +60,7 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     tmLine->setFont(fontLine);
     tmSrc->setFont(fontSrc);
     infoLbl->setFont(fontLbl);
-    maxSpeedLbl->setFont(fontLbl);
+    maxSpeedCkb->setFont(fontLbl);
 
     turingLayout = new QVBoxLayout();
     turingLayout->setSpacing(3);
@@ -71,9 +68,7 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     turingLayout->addWidget(tmSrc);
     appLayout->addLayout(turingLayout);
     historyCkbLayout = new QHBoxLayout();
-    historyLbl = new QLabel("Данные из таблицы: ");
-    historyCkb = new QCheckBox();
-    historyCkbLayout->addWidget(historyLbl);
+    historyCkb = new QCheckBox("Данные из таблицы");
     historyCkbLayout->addWidget(historyCkb);
     historyCkbLayout->setAlignment(Qt::AlignLeft);
     rightLayout->addLayout(historyCkbLayout);
@@ -82,8 +77,8 @@ UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
     rightLayout->addWidget(history);
     rightLayout->addWidget(errorLbl);
     rightLayout->addWidget(errorConsole);
+    errorConsole->setMinimumWidth(400);
     errorConsole->setMaximumWidth(400);
-    errorConsole->setMaximumHeight(200);
     createTableHistory();
     appLayout->addLayout(rightLayout);
     mainVerticalSeparator = new QVBoxLayout();
@@ -242,7 +237,6 @@ UI::~UI() {
     delete tmStopBtn;
     delete clearHistoryBtn;
     delete tmSrc;
-    delete maxSpeedLbl;
     delete maxSpeedCkb;
     delete maxSpdLayout;
     delete upLayout;
@@ -253,7 +247,6 @@ UI::~UI() {
     delete speedLbl;
     delete speedSlider;
     delete historyCkbLayout;
-    delete historyLbl;
     delete historyCkb;
     delete saveAction;
     delete openAction;

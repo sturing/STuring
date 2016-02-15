@@ -38,11 +38,11 @@ public:
     QFont fontLine, fontSrc, fontLbl;
     QSlider* speedSlider;
 
-    QLabel* maxSpeedLbl;
+    //QLabel* maxSpeedLbl;
     QCheckBox* maxSpeedCkb;
 
     QHBoxLayout* historyCkbLayout;
-    QLabel* historyLbl;
+    //QLabel* historyLbl;
     QCheckBox* historyCkb;
 
     QAction* saveAction;
