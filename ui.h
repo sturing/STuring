@@ -8,6 +8,7 @@
 #include "codeeditor.h"
 #include "history.h"
 #include "filecontroller.h"
+#include "localization.h"
 
 using namespace std;
 
@@ -18,6 +19,7 @@ private:
     void createActions();
 
 public:
+    Localization local;
     FileController* fControl;
     QString programmNameString;
     QIcon icon;

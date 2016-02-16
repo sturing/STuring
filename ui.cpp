@@ -2,13 +2,13 @@
 
 UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
 {
-    programmNameString = "STuring v3.0.1";
+    programmNameString = "STuring v3.0.2alpha";
     app = app_;
     fControl = new FileController();
     tmLine = new QLineEdit();
-    tmRunBtn = new QPushButton("Пуск");
-    tmStopBtn = new QPushButton("Стоп");
-    clearHistoryBtn = new QPushButton("Очистить историю");
+    tmRunBtn = new QPushButton(local.getTmRunBtnLocale());
+    tmStopBtn = new QPushButton(local.getTmRunBtnLocale());
+    clearHistoryBtn = new QPushButton(local.getClearHistoryBtnLocale());
     tmSrc = new CodeEditor();
     infoLbl = new QLabel("");
     speedSlider = new QSlider(Qt::Horizontal);

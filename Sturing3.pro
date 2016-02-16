@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     history.cpp \
     historyitem.cpp \
     errorcontroller.cpp \
-    filecontroller.cpp
+    filecontroller.cpp \
+    localization.cpp
 
 HEADERS  += \
     controller.h \
@@ -30,7 +31,8 @@ HEADERS  += \
     history.h \
     historyitem.h \
     errorcontroller.h \
-    filecontroller.h
+    filecontroller.h \
+    localization.h
 CONFIG += c++11
 
 RESOURCES += \
