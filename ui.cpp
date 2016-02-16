@@ -2,12 +2,12 @@
 
 UI::UI(QApplication* app_, QObject *parent) : QObject(parent)
 {
-    programmNameString = "STuring v3.0.2alpha";
+    programmNameString = "STuring v4.0 Alpha 1";
     app = app_;
     fControl = new FileController();
     tmLine = new QLineEdit();
     tmRunBtn = new QPushButton(local.getTmRunBtnLocale());
-    tmStopBtn = new QPushButton(local.getTmRunBtnLocale());
+    tmStopBtn = new QPushButton(local.getTmStopBtnLocale());
     clearHistoryBtn = new QPushButton(local.getClearHistoryBtnLocale());
     tmSrc = new CodeEditor();
     infoLbl = new QLabel("");
@@ -241,13 +241,11 @@ UI::~UI() {
     delete maxSpdLayout;
     delete upLayout;
     delete turingLayout;
-    delete downLayout;
-    delete menuLayout;
     delete infoLbl;
     delete speedLbl;
     delete speedSlider;
-    delete historyCkbLayout;
     delete historyCkb;
+    delete historyCkbLayout;
     delete saveAction;
     delete openAction;
     delete menuBar;
@@ -261,7 +259,9 @@ UI::~UI() {
     delete errorLbl;
     delete rightLayout;
     delete appLayout;
-    delete mainVerticalSeparator;
     delete history;
     delete aboutDialog;
+    delete downLayout;
+    delete menuLayout;
+    delete mainVerticalSeparator;
 }

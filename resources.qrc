@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file alias="ico">ST_new.png</file>
+        <file alias="styles">darkorange.stylesheet.css</file>
     </qresource>
 </RCC>

@@ -21,7 +21,7 @@ SOURCES += main.cpp \
     historyitem.cpp \
     errorcontroller.cpp \
     filecontroller.cpp \
-    localization.cpp
+    localization.cpp \
 
 HEADERS  += \
     controller.h \
@@ -36,4 +36,5 @@ HEADERS  += \
 CONFIG += c++11
 
 RESOURCES += \
-    resources.qrc
+    resources.qrc \
+    styles/style.qrc

@@ -164,7 +164,8 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
             //painter.setPen(QColor(70, 70, 70, 255));
-            painter.setPen(QColor(255, 196, 58, 255));
+            //painter.setPen(QColor(255, 196, 58, 255));
+            painter.setPen(QColor(110, 180, 255, 255));
             painter.drawText(5, top, lineNumberArea->width(), fontMetrics().height(),
                              Qt::AlignLeft, number);
         }
