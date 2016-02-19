@@ -8,6 +8,7 @@
 #include "sturing.h"
 #include "errorcontroller.h"
 #include "ui.h"
+#include "settings.h"
 
 using namespace std;
 
@@ -22,7 +23,8 @@ private:
     bool isTableParametres;
     bool maxSpdEnabled;
 
-    QSettings* settings;
+    //QSettings* settings;
+    Settings* settings;
 public:
     explicit Controller(QApplication *app_, QObject *parent = 0);
     ~Controller();

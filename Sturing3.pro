@@ -22,6 +22,7 @@ SOURCES += main.cpp \
     errorcontroller.cpp \
     filecontroller.cpp \
     localization.cpp \
+    settings.cpp
 
 HEADERS  += \
     controller.h \
@@ -32,7 +33,8 @@ HEADERS  += \
     historyitem.h \
     errorcontroller.h \
     filecontroller.h \
-    localization.h
+    localization.h \
+    settings.h
 CONFIG += c++11
 
 RESOURCES += \

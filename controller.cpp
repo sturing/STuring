@@ -9,9 +9,9 @@ Controller::Controller(QApplication *app_, QObject *parent) : QObject(parent) {
     errControl = new ErrorController();
     maxSpdEnabled = 0;
 
-    settings = new QSettings("settings.conf", QSettings::IniFormat);
-
-    QString recentPath = settings->value("pathFile/recentFile", "").toString();
+    settings = new Settings();
+    loadRecentFile(settings->getRecentPath());
+    //QString recentPath = settings->value("pathFile/recentFile", "").toString();
 
 
     QObject::connect(ui->tmRunBtn, SIGNAL(clicked()), this, SLOT(tmRun()));
@@ -35,7 +35,8 @@ Controller::Controller(QApplication *app_, QObject *parent) : QObject(parent) {
     QObject::connect(ui->tmLine, SIGNAL(textChanged(QString)), this, SLOT(errorTest()));
     QObject::connect(ui->tmSrc, SIGNAL(textChanged()), this, SLOT(errorTest()));
     //QObject::connect(ui->tmSrc, SIGNAL(textChanged()), ui->tmSrc, SLOT())
-    loadRecentFile(recentPath);
+    //loadRecentFile(recentPath);
+    QObject::connect(settings, SIGNAL(setRecentPath(QString)), this, SLOT(loadRecentFile(QString)));
 }
 
 void Controller::kill() {
@@ -53,8 +54,9 @@ void Controller::loadRecentFile(QString path) {
 }
 
 void Controller::saveSettings() {
-    settings->setValue("pathFile/recentFile", ui->fControl->getPathString());
-    settings->sync();
+    //settings->setValue("pathFile/recentFile", ui->fControl->getPathString());
+    //settings->sync();
+    settings->saveRecentFileSettings(ui->fControl->getPathString());
 }
 
 void Controller::maxSpdWidgetsBlocker(bool b) {
